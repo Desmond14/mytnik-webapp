@@ -1,0 +1,6 @@
+Instalacja:
+
+1. Ściągnąć ze strony http://www.playframework.com/download play framework(classic distribution najlepiej w wersji 2.2.2)
+2. Ustawic wartosc zmiennej srodowiskowej path na PATH_TO_PLAY\play-2.2.2\
+3. Uruchomic cmd i przejsc do katalogu z projektem(katalog mytnik)
+4. Na koniec uruchomic czy komenda play run
