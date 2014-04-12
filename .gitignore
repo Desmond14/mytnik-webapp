@@ -1,0 +1,5 @@
+mytnik/.idea/
+*.iml
+*.iws
+mytnik/overlays/
+mytnik/target/

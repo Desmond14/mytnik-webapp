@@ -1,0 +1,66 @@
+@(manifests: List[Manifest])
+
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Mytnik</title>
+        <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/bootstrap.css")">
+        <link rel="shortcut icon" type="image/png" href="@routes.Assets.at("images/favicon.png")">
+        <script src="@routes.Assets.at("javascripts/jquery-1.9.0.min.js")" type="text/javascript"></script>
+    </head>
+    <body>
+        <div class="container">
+        <h1>Manifests to process</h1>
+        @if(!manifests.isEmpty) {
+            <table class="table table-hover table-responsive">
+                <thead>
+                    <tr>
+                        <th>Unb Reference</th>
+                        <th>Sent date</th>
+                        <th>ETA</th>
+                        <th>Sender</th>
+                        <th>Original sender</th>
+                        <th>Vessel name</th>
+                        <th>Voyage no.</th>
+                        <th>Terminal</th>
+                        <th>Containers count</th>
+                        <th>PL Full</th>
+                        <th>PL Empty</th>
+                        <th>Transhipment</th>
+                    </tr>
+                </thead>
+                <tbody>
+                @for(manifest <- manifests) {
+                    <tr>
+                        <td>@manifest.unbReference</td>
+                        <td>@manifest.sentDate</td>
+                        <td>@manifest.eta</td>
+                        <td>@manifest.sender</td>
+                        <td>@manifest.originalSender</td>
+                        <td>@manifest.vesselName</td>
+                        <td>@manifest.voyageNumber</td>
+                        <td>@manifest.terminal</td>
+                        <td>@manifest.containersCount</td>
+                        <td>@manifest.plFull</td>
+                        <td>@manifest.plEmpty</td>
+                        <td>@manifest.transhipment</td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        } else {
+            <strong> No manifests to process </strong>
+        }
+
+        <a class="btn btn-primary btn-lg" href="/index" role="button" >Back</a>
+        <hr>
+        <footer>
+            <p>© by KK, SL</p>
+        </footer>
+        </div>
+    </body>
+</html>
