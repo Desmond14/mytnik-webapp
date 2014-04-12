@@ -1,0 +1,55 @@
+Nie które polecenia wymagaja praw admina wiec odpalamy powershella z prawami admina 
+
+1. Instalacja Python
+	https://www.python.org/ftp/python/2.7.6/python-2.7.6.amd64.msi  
+	Sciagamy i instaluejmy w defaultowym katologu czyli C:\Python27
+2. Dodanie python do classpatha , wykonujemy ponizsze instrukcje
+		Upon the completion of the installation, open a Command Prompt and enter the command python. If you see the Python prompt, installation was successful.
+		However, in certain circumstances, the installer may not set your Windows installation’s PATH environment variable correctly. This will result in the python command not being found. Under Windows 7, you can rectify this by performing the following:
+				a)Click the Start button, right click My Computer and select Properties.
+				b) Click the Advanced tab.
+				c) Click the Environment Variables button.
+				d) In the System variables list, find the variable called Path, click it, then click the Edit button.
+				e) At the end of the line, enter ;C:\python27;C:\python27\scripts. Don’t forget the semicolon - and certainly do not add a space.
+				f) Click OK to save your changes in each window.
+				g) Close any Command Prompt instances, open a new instance, and try run the python command again.
+3. Setting Up the PYTHONPATH
+	 Add a PYTHONPATH variable with the value being set to your site-packages folder, which is typically C:\Python27\Lib\site-packages\. Podobnie jak w punkcie 2 , 
+	 ale tym razem nie edytujemy zmiennej srodowiskowej a dodajemy nowa zmienna srodowiskowa  PYTHONPATH
+
+
+4. Using Setuptools and Pip
+		Sciagamy Setuptools z tej strony https://pypi.python.org/pypi/setuptools/1.1.6#windows czyli sciagamy konkretnie ten skrypt :
+			https://bitbucket.org/pypa/setuptools/raw/bootstrap/ez_setup.py i go odpalamy poleceniem "python ez_setup.py"
+		Jesli wszystko jest okej to zobaczymy mniej wiecej to :
+			Finished processing dependencies for setuptools==1.1.6
+		
+		Teraz sciagamy pip
+			easy_install pip
+		Jesli wszystko jest okej to zobaczymy mniej wiecej to :
+			Finished processing dependencies for pip
+		
+5. Instalacja django
+		 pip install -U django==1.6
+		 
+6. Instalacja pyodbc
+		https://code.google.com/p/pyodbc/downloads/detail?name=pyodbc-3.0.7.win-amd64-py2.7.exe
+		 
+7. Instalacja django-pyodbc
+		pip install django-pyodbc
+		
+I to powinno byæ wyszystko
+
+Uwaga logowanie do bazy odpuwa sie poprzez uzytkownika ( tego domyslnego co by podany w mailu, mam nadzieje za pamietacie, maly hint m***** od hasle m***  , wiec w bazie trzbea miec go utworzonego !
+9. Jak odpaliæ serwer 
+         wchodizmy do naszego Katalogu SeeWeb   ( w tym katalogu powinny byc kilka katalogow miedzy innymi kolejny katalog SeeWeb oraz katalog webint oraz plik manage.py _
+		 cd ......(Wasza scie¿ka do) .../SeeWeb
+		 w tym katalogu odpalamy nastepujaca komende
+		 "python manage.py runserver"
+		 wchodzimy na stroneke http://127.0.0.1:8000/webint/
+		 Enjoy !
+			
+
+		
+		           
+			

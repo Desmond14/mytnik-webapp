@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+
+{% load static %}
+
+<html lang='pl'>
+
+    <head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">	
+        <title>System analityczny</title>
+		<link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+    </head>
+    <body>
+
+	<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="/webint/">SeeWeb</a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="http://getbootstrap.com/examples/dashboard/#">Dashboard</a></li>
+            <li><a href="http://getbootstrap.com/examples/dashboard/#">Settings</a></li>
+            <li><a href="http://getbootstrap.com/examples/dashboard/#">Profile</a></li>
+            <li><a href="http://getbootstrap.com/examples/dashboard/#">Help</a></li>
+          </ul>
+          <form class="navbar-form navbar-right">
+            <input type="text" class="form-control" placeholder="Search...">
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main jumbotron for a primary marketing message or call to action -->
+    <div class="jumbotron">
+      <div class="container">
+        <h1>System analityczny</h1>
+        <p>Celem projektu jest realizacja interfejsu webowego dla istniejącej analitycznej bazy danych (MSSQL) dot. transportu morskiego. Interfejs taki powinien umożliwiać wielokryterialne przeszukiwanie danych oraz wizualizację tabelaryczną z możliwością nawigacji "wgląb" na bazie istniejących zależności.</p>
+        <p><a class="btn btn-primary btn-lg" role="button" href="/webint/manifesty/" >Manifesty »</a></p>
+      </div>
+    </div>
+
+    <div class="container">
+      <!-- Example row of columns -->
+      <div class="row">
+        <div class="col-md-4">
+          <h2>Github</h2>
+          <p>Link do naszego repozytorium</p>
+          <p><a class="btn btn-default" href="https://github.com/konradzuchowicz" role="button">Github»</a></p>
+        </div>
+        <div class="col-md-4">
+          <h2>Jira</h2>
+          <p>Zarzadzanie projektem</p>
+          <p><a class="btn btn-default" href="http://getbootstrap.com/examples/jumbotron/#" role="button">Jira »</a></p>
+       </div>
+      </div>
+
+      <hr>
+
+      <footer>
+        <p>Django Prototype By Konrad Zuchowicz</p>
+      </footer>
+    </div> <!-- /container -->
+	  	
+	<script src="{% static 'js/jquery-2.1.0.min.js' %}"></script>
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    </body>
+
+</html>
