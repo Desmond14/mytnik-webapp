@@ -23,3 +23,9 @@ def customquerry(request):
 	context = RequestContext(request)
 	context_dict = {}
 	return render_to_response('webint/customquerry.html', context_dict, context)
+
+def docs(request):
+	context = RequestContext(request)
+	context_dict = {}
+	return render_to_response('webint/docs.html', context_dict, context)
+

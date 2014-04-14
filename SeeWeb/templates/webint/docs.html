@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+
+{% load static %}
+
+<html>
+
+    <head>
+        <meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">	
+        <title>System analityczny</title>
+		<link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+		<link href="{% static 'css/dashboard.css' %}" rel="stylesheet">
+		<link href="http://getbootstrap.com/examples/blog/blog.css" rel="stylesheet">
+		<style id="holderjs-style" type="text/css"></style>
+    </head>
+
+    <body>
+
+    	<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+	      <div class="container-fluid">
+	        <div class="navbar-header">
+	          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+	            <span class="sr-only">Toggle navigation</span>
+	            <span class="icon-bar"></span>
+	            <span class="icon-bar"></span>
+	            <span class="icon-bar"></span>
+	          </button>
+	          <a class="navbar-brand" href="/webint/">SeeWeb</a>
+	        </div>
+	        <div class="navbar-collapse collapse">
+	          <ul class="nav navbar-nav navbar-right">
+	            <li><a href="http://getbootstrap.com/examples/dashboard/#">Dashboard</a></li>
+	            <li><a href="http://getbootstrap.com/examples/dashboard/#">Settings</a></li>
+	            <li><a href="http://getbootstrap.com/examples/dashboard/#">Docs</a></li>
+	            <li><a href="http://getbootstrap.com/examples/dashboard/#">Help</a></li>
+	          </ul>
+	          <form class="navbar-form navbar-right">
+	            <input type="text" class="form-control" placeholder="Search...">
+	          </form>
+	        </div>
+	      </div>
+    	</div>
+
+    	<div class="container-fluid">
+			<div class="row">
+				<div class="col-md-1 sidebar">
+					<ul class="nav nav-sidebar">
+			            <li class="active"><a href="/webint/docs/">Wizja</a></li>
+          			</ul>
+          			<ul class="nav nav-sidebar">
+          				<li><a>Dokumentacja procesowa</a></li>
+			            <li><a>Dokumentacja techniczna</a></li>
+			            <li><a>Dokumentacja użytkownika</a><li>
+          			</ul>
+          			<ul class="nav nav-sidebar">
+          				<li><a>Przewodnik po pracy</a></li>
+          			</ul>
+          		</div>
+          		<div class="col-md-11 col-md-offset-1" main>
+          			<div class="row">
+          				<div class="container">
+          					<div class="blog-header">
+						        <h1 class="blog-title">Wizja Systemu</h1>
+						        <p class="lead blog-description">Interfejs webowy dla analitycznej bazy danych dot. transportu morskiego</p>						      
+					      	</div>
+					      	<div class="blog-post">
+
+					      		<h2 class="blog-post-title">1. Wstęp</h2>
+					      		<blockquote>
+					      		 <p> Celem niniejszego dokumentu jest ogólne nakreślenie i scharakteryzowanie wymagań stawianych systemowi ze względu na jego przeznaczenie i sposób użycia, a także określenie najważniejszych założeń jego realizacji. Wszelkie decyzje implementacyjne nie są tu podejmowane i opisane zostaną w następnych dokumentach.</p>
+					      		</blockquote>
+					      		<h2> 1.1 Słownik </h2>
+					      		<h3><strong>Manifest</strong></h3>
+								<p style"font-size: 2000px;"> Manifest jest dokumentem zawierającym opis ładunku statku; podzielony jest na tzw.transakcje (pojęcie wprowadzone na nasze potrzeby), które opisują pojedynczy kontener. Manifest dostarczany jest do Służby Celnej na dwa dni przed wejściem statku do portu przez operatora statku.</p>
+								<h3><strong>SC</strong></h3>
+								<p>Służba Celna.</p>
+								<h3><strong>Transakcja</strong></h3>
+								<p>Transakcja opisuje pojedyńczy kontener: jego pochodzenie, miejsce docelowe, zawartość, parametry kontenera oraz podmioty zaangażowane w transakcje (tj. nadawca, odbiorca, podmiot mający zostać powiadomiony o przybyciu kontenera do portu).
+								</p>
+								<h3><strong>Podmiot</strong></h3>
+								<p>Podmiotem nazywamy przedsiębiorstwo polskie lub zagraniczne, które bieże udział w transakcji. Są to nadawcy, odbiorcy i często firmy pośredniczące i/lub specyjne odpowiedzialne za transport ładunku do docelowego miejsca.
+								</p>
+					      		<h2> 1.2 Odnosniki </h2>
+					      		<h2 class="blog-post-title">2. Opis problemu</h2>
+					      		<h2 class="blog-post-title">3. Cel systemu</h2>
+					      		<h2 class="blog-post-title">4. Opis użytkownika i zewnętrznych podsystemów</h2>
+					      		<h2 class="blog-post-title">5. Opis produktu</h2>
+					      		<h2 class="blog-post-title">6. Wymagania funkcjonalne i ich priorytety</h2>
+					      		<h2 class="blog-post-title">7. Inne wymagania dotyczące produktu</h2>
+					      		<h2 class="blog-post-title">8. Założenia</h2>
+					      		<h2 class="blog-post-title">9. Wstępna analiza ryzyka</h2>
+					      		
+					      	</div>	
+					    </div>
+          			</div>
+          		</div>
+          	</div>
+         </div>
+        <script src="{% static 'js/jquery-2.1.0.min.js' %}"></script> 
+		<script src="{% static 'js/bootstrap.min.js' %}"></script>
+    </body>
+</html>
