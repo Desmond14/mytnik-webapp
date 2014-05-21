@@ -14,7 +14,7 @@
     </head>
 
     <body>
-
+    {% if user.is_authenticated %} 	
     	<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
 	      <div class="container-fluid">
 	        <div class="navbar-header">
@@ -28,7 +28,7 @@
 	        </div>
 	        <div class="navbar-collapse collapse">
 	          <ul class="nav navbar-nav navbar-right">
-	            <li><a href="http://getbootstrap.com/examples/dashboard/#">Dashboard</a></li>
+	            <li><a href="/webint/logout">Wyloguj się: {{ user.username }} {{ user.first_name }} {{ user.last_name }}</a></li>
 	            <li><a href="http://getbootstrap.com/examples/dashboard/#">Settings</a></li>
 	            <li><a href="http://getbootstrap.com/examples/dashboard/#">Docs</a></li>
 	            <li><a href="http://getbootstrap.com/examples/dashboard/#">Help</a></li>
@@ -119,11 +119,16 @@
 					</footer>
           		</div>	
 			</div>	
-		</div>		
-		<script src="{% static 'js/jquery-2.1.0.min.js' %}"></script> 
-		<script type="text/javascript" src="{% static 'js/jquery.tablesorter.js' %}"></script>  
-		<script src="{% static 'js/bootstrap.min.js' %}"></script>
-		<script src="{% static 'js/myjscode.js' %}"></script>
+		</div>
+	{% else %}
+        <a href="/webint/login">Zaloguj się</a>
+  	{% endif %} 
+
+	<script src="{% static 'js/jquery-2.1.0.min.js' %}"></script> 
+	<script type="text/javascript" src="{% static 'js/jquery.tablesorter.js' %}"></script>  
+	<script src="{% static 'js/bootstrap.min.js' %}"></script>
+	<script src="{% static 'js/myjscode.js' %}"></script>
+
 
     </body>
 

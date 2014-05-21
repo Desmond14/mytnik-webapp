@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/1.6/ref/settings/
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
 
+
+SITE_ID = 1
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 SETTINGS_DIR = os.path.dirname(__file__)
 PROJECT_PATH = os.path.join(SETTINGS_DIR, os.pardir)
@@ -40,9 +42,11 @@ INSTALLED_APPS = (
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
+    'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-	'webint',
+	   'webint',
+
 )
 
 TEMPLATE_DIRS = [os.path.join(BASE_DIR, 'templates')]
@@ -63,9 +67,9 @@ WSGI_APPLICATION = 'SeeWeb.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/1.6/ref/settings/#databases
-
+DATABASE_PATH = os.path.join(PROJECT_PATH, 'littlemytnik.db')
 DATABASES = {
-   'default': {
+   'themytnik': {
        'ENGINE': "django_pyodbc",
        'HOST': "127.0.0.1,1433",
        'USER': "mytnik",
@@ -73,9 +77,12 @@ DATABASES = {
        'NAME': "MYTNIK_CUSCAR",
        'OPTIONS': {
            'host_is_server': True
-       },
+       }},
+       'default': {
+        'NAME': DATABASE_PATH ,
+        'ENGINE': 'django.db.backends.sqlite3',
+       }
    }
-}
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.6/topics/i18n/

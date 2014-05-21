@@ -64,7 +64,6 @@
 						        <h1 class="blog-title">Wizja Systemu</h1>
 						        <p class="lead blog-description">Interfejs webowy dla analitycznej bazy danych dot. transportu morskiego</p>						      
 					      	</div>
-					      	<div class="blog-post">
 
 					      		<h2 class="blog-post-title">1. Wstęp</h2>
 					      		<blockquote>
@@ -83,15 +82,50 @@
 								</p>
 					      		<h2> 1.2 Odnosniki </h2>
 					      		<h2 class="blog-post-title">2. Opis problemu</h2>
+					      		<blockquote>
+					      		<p> Brak aplikacji webowej dla istniejącej analitycznej bazy danych (MSSQL) dotyczącej transportu morskiego. Istniejąca aplikacja desktopowa niesie ze sobą kilka niedogodności. Każda zmiana w aplikacji wymaga aktualizacji na komputerze każdego użytkownika. Ponadto technologia Eclipse RCP wymusza pewne konwencje, które nie zawsze wpisują się w wymagania klienta. Aplikacje webowe są pod tym względem dużo bardziej elastyczne i umożliwiają dobór różnych komponentów w zależności od potrzeb programistów.</p>
+					      		</blockquote>
 					      		<h2 class="blog-post-title">3. Cel systemu</h2>
+					      		<blockquote>
+					      			<p>Stworzenie interfejsu webowego umożliwiającego wielokryterialne przeszukiwanie bazy danych transportu morskiego w celu wytypowania podejrzanych ładunków.</p>
+					      		</blockquote>
 					      		<h2 class="blog-post-title">4. Opis użytkownika i zewnętrznych podsystemów</h2>
-					      		<h2 class="blog-post-title">5. Opis produktu</h2>
-					      		<h2 class="blog-post-title">6. Wymagania funkcjonalne i ich priorytety</h2>
-					      		<h2 class="blog-post-title">7. Inne wymagania dotyczące produktu</h2>
-					      		<h2 class="blog-post-title">8. Założenia</h2>
-					      		<h2 class="blog-post-title">9. Wstępna analiza ryzyka</h2>
-					      		
-					      	</div>	
+					      		<blockquote>
+					      			<p><strong>Użytkownik</strong> - analityk służby celnej który po zalogowaniu się do systemu może przeglądać bazę danych.
+									</p>
+									<p><strong>Zewnętrzny podsystem</strong> - baza danych MS SQL zawierająca dane o manifestach, struktura tej bazy jest skomplikowana ze względu na format danych pozyskiwanych do bazy danych, dlatego będziemy operować głownie na widokach. Bazę traktujemy jako read-only. W przypadku potrzeby persystencji danych w aplikacji, powinniśmy użyć oddzielnej bazy danych.</p>
+					      		</blockquote>
+					      		<h2 class="blog-post-title">5. Wymagania funkcjonalne</h2>
+					      		<blockquote>
+					      		 <ul>
+						            <li>Aplikacja powinna umożliwiać przeglądanie bazy manifestów w postaci tabelarycznej.</li>
+						            <li>Aplikacja powinna umożliwiać przeglądanie danych w głąb.</li>
+									<li>Aplikacja powinna umożliwać sortowanie wyników po kolumnach.</li>
+									<li>Dane powinny być stronicowane, większe zbiory danych powinny być przedstawiane na kilku podstronach aplikacji webowej.</li>
+									<li>Aplikacja powinna umożliwiać filtrowanie tabel według predefiniowanych kryteriów.</li>
+									<li>Aplikacja powinna umożliwiać tworzenie własnych reguł filtrowania.</li>
+									<li>Aplikacja powinna umożliwiać tworzenie listy zadań związanych z przetwarzanymi danymi dla konkretnych pracowników Służby Celnej (np: przypisanie kontenera do sprawdzenia konkretnemu celnikowi).</li>
+					            </ul>
+					            </blockquote>
+					      		<h2 class="blog-post-title">6. Inne wymagania dotyczące produktu</h2>
+					      		<blockquote>
+					      			<p>Do końca kwietnia powinny zostać wykonane dwa prototypy, z których następnie wybierzemy jeden i będziemy dalej rozwijać. 
+										Klient zamiast narzucać z góry kolejność implementacji kolejnych wymagań funkcjonalnych chciałby mieć możliwość wyznaczania na bieżąco kolejnych kamieni milowych po wykonaniu poprzedniego.</p>
+					      		</blockquote>
+					      		<h2 class="blog-post-title">7. Założenia</h2>
+					      		<blockquote>
+					      			<p>Większość prac zostanie wykonana do października.
+										Prototypy zostaną wykonane w technologiach: pierwszy - Play Framework (Java), drugi - Django (Python).
+									</p>
+					      		</blockquote>
+					      		<h2 class="blog-post-title">8. Wstępna analiza ryzyka</h2>
+					      		<blockquote>
+					      		<ul>
+						      		<li> problemy techniczne z niedostateczną znajomością danej technologii.</li>
+									<li> problemy z efektywnym przetwarzaniem dużych zbiorów danych.</li>
+									<li> brak natywnego wsparcia dla bazy danych MS SQL w wybranych technologiach.</li>
+								</ul>
+								</blockquote>				   					      		
 					    </div>
           			</div>
           		</div>
