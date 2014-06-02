@@ -1,11 +1,27 @@
 import pyodbc
 
-def getManifests():
-	cnxn = pyodbc.connect('DRIVER={SQL Server};SERVER=localhost;DATABASE=MYTNIK_CUSCAR;UID=mytnik;PWD=mytnik')
+def getNumberOfManifests():
+	cnxn = pyodbc.connect('DRIVER={SQL Server};SERVER=localhost;DATABASE=MYTNIK_CUSCAR;UID=mytnik;PWD=mytnik;CHARSET=UTF8;unicode_results=False')
 	cursor = cnxn.cursor()
-	cursor.execute("select UnbReference, DocumentCreationTime, ArrivalTime, SenderId ,OriginalSenderId , VesselName , VoyageNumber , RecipientId, ent.ve_MessageContainerStatistics.ContainerCount, ent.ve_MessageContainerStatistics.PlFullCount, ent.ve_MessageContainerStatistics.PlEmptyCount, ent.ve_MessageContainerStatistics.TranshipmentCount from ent.ve_Message inner join ent.ve_MessageContainerStatistics on ent.ve_Message.MessageId=ent.ve_MessageContainerStatistics.messageId")
+	cursor.execute("select COUNT(*) FROM ent.ve_Message")
 	rows = cursor.fetchall()
-	return rows
+	return rows[0][0]
+
+def getManifests(pagenum):
+	cnxn = pyodbc.connect('DRIVER={SQL Server};SERVER=localhost;DATABASE=MYTNIK_CUSCAR;UID=mytnik;PWD=mytnik;CHARSET=UTF8;unicode_results=False')
+	cursor = cnxn.cursor()
+
+	querry = "select newtable.UnbReference , newtable.DocumentCreationTime , newtable.ArrivalTime , newtable.SenderId , newtable.OriginalSenderId , newtable.VesselName , newtable.VoyageNumber , newtable.RecipientId ,newtable.ContainerCount, newtable.PlFullCount , newtable.PlEmptyCount , newtable.TranshipmentCount from( SELECT ROW_NUMBER()       OVER (ORDER BY ent.ve_Message.UnbReference ) AS Row, ent.ve_Message.UnbReference , DocumentCreationTime , ArrivalTime , SenderId , OriginalSenderId , VesselName , VoyageNumber , RecipientId ,ContainerCount, PlFullCount , PlEmptyCount , TranshipmentCount  FROM ent.ve_Message INNER JOIN ent.ve_MessageContainerStatistics ON ent.ve_Message.MessageId=ent.ve_MessageContainerStatistics.messageId ) as newtable where newtable.Row >= MYMIN and newtable.Row < MYMAX order by newtable.UnbReference "
+	tmp = querry.replace('MYMIN', str(pagenum * 20 + 1) )
+	the_querry = tmp.replace('MYMAX', str( pagenum * 20 + 20 + 1 ))
+	cursor.execute(the_querry)
+	rows = cursor.fetchall()
+
+	rowarray_list = []
+	for row in rows:
+	    t = (row.UnbReference, row.DocumentCreationTime, row.ArrivalTime, row.SenderId, row.OriginalSenderId, row.VesselName, row.VoyageNumber, row.RecipientId, row.ContainerCount,row.PlFullCount, row.PlEmptyCount, row.TranshipmentCount,)
+	    rowarray_list.append(t)
+	return rowarray_list
 
 def getContainers():
 	cnxn = pyodbc.connect('DRIVER={SQL Server};SERVER=localhost;DATABASE=MYTNIK_CUSCAR;UID=mytnik;PWD=mytnik')

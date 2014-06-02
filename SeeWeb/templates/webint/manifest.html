@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 
 {% load static %}
-
+{% load mytags %}
 <html>
 
     <head>
@@ -52,7 +52,6 @@
           		</div>
           		<div class="col-md-11 col-md-offset-1" main>
           			<div class="row table-responsive">
-						{% if outer_list %}
 							<table class="table table-hover tablesorter">
 								<thead>
 									<tr>
@@ -63,55 +62,27 @@
 										<th> PL Full </th><th> PL Empty </th><th> Transhipment </th>
 									</tr>
 								</thead>
-								<tbody> 
-									{% for inner_list in outer_list %}
-										<tr  class="success">
-											{% for field in inner_list %}
-												<td> {{ field }} </td>
-											{% endfor %}	
-										</tr>
-									{% endfor %}
-								<tbody> 
-							</table>
-							<table class="table table-hover tablesorter" id="Container_table">
-								<thead>
-									<tr id="Container_table_header" >
-										<th> Id Vessel </th> <th> Container</th><th> Bill of landing </th>
-										<th> Item No. </th> <th> Type &amp Size</th><th> Status </th>
-										<th> Gross Weight </th> <th> Net Weight </th><th> Volume </th>
-										<th> Package </th> <th> Quantity</th><th> Goods description </th>
-									</tr>
-								</thead>
 								<tbody>
-									{% for inner_list in cont_outer_list %}
-										<tr class="info" hidden id="id_{{inner_list.0}}">
-											{% for field in inner_list %}
-												<td> {{ field }} </td>
+									{% num_range 20 as outer_range %}
+									{% num_range 12 as inner_range %} 
+									{% for i in outer_range %}
+										<tr class="success">
+											{% for j in inner_range %}
+												<td id="tr_{{ i }}_td_{{ j }}"></td>
 											{% endfor %}	
 										</tr>
 									{% endfor %}
-								</tbody>
+								</tbody>  
 							</table>
-							<table class="table table-hover tablesorter " id="Bill_table" >
-								<thead>
-									<tr id="Bill_table_header" >
-										<th> UNB Reference </th> <th> Bill of landing</th>
-										<th> Origin Port </th><th> Loading port </th> <th> Discharge port </th>
-									</tr>
-								</thead>
-								<tbody>
-									{% for inner_list in bills_outer_list %}
-										<tr class="info" hidden id="id_{{inner_list.0}}">
-											{% for field in inner_list %}
-												<td> {{ field }} </td>
-											{% endfor %}	
-										</tr>
-									{% endfor %}
-								</tbody>
-							</table>
-						{% else %}
-							<strong> No manifests </strong>
-						{% endif %}
+          			</div>
+          			<div class="container-fluid">
+          				<center><ul class="pagination">
+          					<li><a href="#">&laquo;</a></li>
+          					{% for singlepage in number_of_pages %}
+          						<li><a class="linkbutton">{{ singlepage }}</a></li>
+          					{% endfor %}
+          					<li><a href="#">&raquo;</a></li>
+						</ul></center>
           			</div>
           			<hr>
 					<footer>
@@ -127,7 +98,7 @@
 	<script src="{% static 'js/jquery-2.1.0.min.js' %}"></script> 
 	<script type="text/javascript" src="{% static 'js/jquery.tablesorter.js' %}"></script>  
 	<script src="{% static 'js/bootstrap.min.js' %}"></script>
-	<script src="{% static 'js/myjscode.js' %}"></script>
+	<script src="{% static 'js/myajaxjscode.js' %}"></script>
 
 
     </body>

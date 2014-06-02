@@ -41,17 +41,93 @@
 	      </div>
     	</div>
 
+    	<div class="container-fluid">
+			<div class="row">
+				<div class="col-md-1 sidebar">
+					<ul class="nav nav-sidebar">
+			            <li class="active"><a href="/webint/manifesty/">Refresh Manifests</a></li>
+			            <li><a id="nav_cont">Containers</a></li>
+			            <li><a id ="nav_bill">Bills</a></li>
+			            <li><a href="/webint/customquerry/" id ="nav_querry">Custom Querry</a></li>
+          			</ul>
+          		</div>
+          		<div class="col-md-11 col-md-offset-1" main>
+          			<div class="row table-responsive">
+							<table class="table table-hover tablesorter">
+								<thead>
+									<tr>
+										<th> UNB Reference </th> <th>Sent date</th><th> ETA </th>
+										<th> Sender</th><th> Original sender </th>
+										<th> Vessel name </th><th> Voyage no. </th>
+										<th> Terminal </th> <th> Containers count </th> 
+										<th> PL Full </th><th> PL Empty </th><th> Transhipment </th>
+									</tr>
+								</thead>
+								<tbody class="mymanifest">
+									<tr  class="success"> 
+										<td id="td_1"></td>
+										<td id="td_2"></td>
+										<td id="td_3"></td>
+										<td id="td_4"></td>
+										<td id="td_5"></td>
+										<td id="td_6"></td>
+										<td id="td_7"></td>
+										<td id="td_8"></td>
+										<td id="td_9"></td>
+										<td id="td_10"></td>
+										<td id="td_11"></td>
+										<td id="td_12"></td>
+									</tr>
+								<tbody> 
+							</table>
+							<table class="table table-hover tablesorter" id="Container_table">
+								<thead>
+									<tr id="Container_table_header" >
+										<th> Id Vessel </th> <th> Container</th><th> Bill of landing </th>
+										<th> Item No. </th> <th> Type &amp Size</th><th> Status </th>
+										<th> Gross Weight </th> <th> Net Weight </th><th> Volume </th>
+										<th> Package </th> <th> Quantity</th><th> Goods description </th>
+									</tr>
+								</thead>
+								<tbody>
+
+								</tbody>
+							</table>
+							<table class="table table-hover tablesorter " id="Bill_table" >
+								<thead>
+									<tr id="Bill_table_header" >
+										<th> UNB Reference </th> <th> Bill of landing</th>
+										<th> Origin Port </th><th> Loading port </th> <th> Discharge port </th>
+									</tr>
+								</thead>
+								<tbody>
+
+								</tbody>
+							</table>
+          			</div>
+          			<hr>
+					<footer>
+				    <p><center>Django Prototype By Koonrad Zuchowicz</center></p>
+					</footer>
+          		</div>	
+			</div>	
+		</div>
+
+
     	<ul class="pagination">
 		  <li><a href="#">&laquo;</a></li>
-		  <li><a href="/webint/test/">1</a></li>
-		  <li><a href="#">2</a></li>
-		  <li><a href="#">3</a></li>
-		  <li><a href="#">4</a></li>
-		  <li><a href="#">5</a></li>
+		  <li><a class="linkbutton">1</a></li>
+		  <li><a class="linkbutton">2</a></li>
+		  <li><a class="linkbutton">3</a></li>
+		  <li><a class="linkbutton">4</a></li>
+		  <li><a class="linkbutton">5</a></li>
 		  <li><a href="#">&raquo;</a></li>
 		</ul>
 
-        <script src="{% static 'js/jquery-2.1.0.min.js' %}"></script> 
+		<script src="{% static 'js/jquery-2.1.0.min.js' %}"></script> 
+		<script type="text/javascript" src="{% static 'js/jquery.tablesorter.js' %}"></script> 
 		<script src="{% static 'js/bootstrap.min.js' %}"></script>
+		<script src="{% static 'js/theajaxjscode.js' %}"></script>
+
     </body>
 </html>

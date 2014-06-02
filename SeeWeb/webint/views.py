@@ -5,10 +5,13 @@ from django.http import HttpResponse
 from algorithms.basic import getManifests
 from algorithms.basic import getContainers
 from algorithms.basic import getBills
+from algorithms.basic import getNumberOfManifests
 from django.contrib.auth.models import User
 from dajaxice.core import dajaxice_functions
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponseRedirect, HttpResponse
+import json , math
+from decimal import *
 def index(request):
 	context = RequestContext(request)
 	context_dict = {'boldmessage': "Developed by Konrad Zuchowicz"}
@@ -16,10 +19,11 @@ def index(request):
 	
 def manifest(request):
 	context = RequestContext(request)
-	manif_list = getManifests()
-	conta_list = getContainers()
-	bills_list = getBills()
-	context_dict = {'outer_list': manif_list, 'cont_outer_list': conta_list, 'bills_outer_list': bills_list}
+	size = getNumberOfManifests()
+	pagination = 0 
+	pagination = int (math.ceil(size / 20.0))
+	pages = range(pagination)
+	context_dict = {'number_of_pages': pages}
 	return render_to_response('webint/manifest.html', context_dict, context)
 
 def customquerry(request):
@@ -68,12 +72,14 @@ def mylogout(request):
 		return HttpResponseRedirect('/webint/')
 
 def test_view(request):
-	if request.method == 'GET':
-		GET = request.GET
-		print GET
 		context = RequestContext(request)
 		context_dict = {}
 		return render_to_response('webint/test.html', context_dict, context)
+
+def test_ajax(request, pagenumber):
+		context = RequestContext(request)
+		data = getManifests( int( pagenumber ) )
+		return HttpResponse(json.dumps(data), content_type = "application/json")
 
 
 
