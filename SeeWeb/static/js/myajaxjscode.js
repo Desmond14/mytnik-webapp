@@ -3,6 +3,14 @@ $( document ).ready(function() {
 	console.log("Zaczynamy Ajaxa");
 	$("table").tablesorter();
 
+	$("#singmanf").keyup(function (e) {
+	    if (e.keyCode == 13) {
+	        // Do something
+	        var myURL = 'http://127.0.0.1:8000/webint/manifestID/'.concat($(this).val());
+	        window.open(myURL,'Singel Manifest');
+	    }
+	});
+
 	$(".linkbutton").click( function() {
 
 		var theURL = "http://127.0.0.1:8000/webint/page/";
@@ -21,8 +29,9 @@ $( document ).ready(function() {
 		    // the response is passed to the function
 		    success: function( data ) {
 
-		    	//sadsasas
-		        for(var i=0 ; i < 20 ; i++)
+		    	console.log(data.length);
+		    	console.log(data[0].length);
+		        for(var i=0 ; i < data.length ; i++)
 		        {
 		        	var str1 ="#tr_";
 		        	var str2 =i;
@@ -34,7 +43,27 @@ $( document ).ready(function() {
 		        		var current = id.concat(j);
 		        		$(current).text(data[i][j]);
 		        	}
-		        }	        
+		        }
+
+		        /////////// Clearing if we didnt get 20 rows
+		        if(data.length != 20)
+		        {
+
+		        	for(var i=data.length ; i < 20 ; i++)
+			        {
+			        	var str1 ="#tr_";
+			        	var str2 =i;
+			        	var str3 =str1.concat(str2);
+			        	//var id = "#tr_"+toString(i)+"_td_";
+			        	var id = str3.concat("_td_");
+			        	for(var j=0 ; j < 12 ; j++)
+			        	{
+			        		var current = id.concat(j);
+			        		$(current).text("");
+			        	}
+			        }
+		        }
+
 		        $("table").trigger("update"); 
 		    },
 		 

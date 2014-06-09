@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+
+{% load static %}
+
+<html>
+
+    <head>
+	    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+	    <meta charset="utf-8">
+	    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+	    <title>System analityczny</title>
+
+	    <!-- Bootstrap core CSS -->
+	    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+	    <link href="{% static 'css/signin.css' %}" rel="stylesheet">
+	    <style type="text/css" id="holderjs-style"></style>
+    </head>
+
+    <body>
+    	<center>
+    	<div class="container">
+				  <center><h2>Nie jestes zalogowany!</h2>
+				  <p><a class="btn btn-primary btn-lg"  href="/webint/login" role="button">Logowanie</a></p></center>
+		</div>
+		</center>
+		<footer>
+		<div class="blog-footer" style="bottom:0; position:absolute; width:100%; padding: 40px 0; color: #999; text-align: center; background-color: #f9f9f9; border-top: 1px solid #e5e5e5;">
+	      <p>Authors: Konrad Zuchowicz, Sebastian Lakomy, Krzysztof Klimek.</p>
+    	</div>
+    	</footer>
+		<script src="{% static 'js/jquery-2.1.0.min.js' %}"></script>
+	    <script src="{% static 'js/bootstrap.js' %}"></script>
+    </body>
+</html>

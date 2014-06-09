@@ -7,6 +7,26 @@ def getNumberOfManifests():
 	rows = cursor.fetchall()
 	return rows[0][0]
 
+def getNumberOfContainers(manf_id):
+	cnxn = pyodbc.connect('DRIVER={SQL Server};SERVER=localhost;DATABASE=MYTNIK_CUSCAR;UID=mytnik;PWD=mytnik;CHARSET=UTF8;unicode_results=False')
+	cursor = cnxn.cursor()
+	tmpquerry= "SELECT  COUNT(*) FROM [MYTNIK_CUSCAR].[ent].[ve_Container] where ManifestId = 'theID' "
+	querry = tmpquerry.replace('theID', manf_id)
+	cursor.execute(querry)
+	rows = cursor.fetchall()
+	return rows[0][0]
+
+def getNumberOfBills(manf_id):
+	cnxn = pyodbc.connect('DRIVER={SQL Server};SERVER=localhost;DATABASE=MYTNIK_CUSCAR;UID=mytnik;PWD=mytnik;CHARSET=UTF8;unicode_results=False')
+	cursor = cnxn.cursor()
+	tmpquerry = "SELECT  COUNT(*) from ent.ve_Message  inner join ent.ve_CargoDetails on ent.ve_Message.MessageId=ent.ve_CargoDetails.MessageId where ent.ve_Message.MessageId ='theID' "
+	 
+	querry = tmpquerry.replace('theID', manf_id)
+	print querry
+	cursor.execute(querry)
+	rows = cursor.fetchall()
+	return rows[0][0]
+
 def getManifests(pagenum):
 	cnxn = pyodbc.connect('DRIVER={SQL Server};SERVER=localhost;DATABASE=MYTNIK_CUSCAR;UID=mytnik;PWD=mytnik;CHARSET=UTF8;unicode_results=False')
 	cursor = cnxn.cursor()
@@ -21,6 +41,33 @@ def getManifests(pagenum):
 	for row in rows:
 	    t = (row.UnbReference, row.DocumentCreationTime, row.ArrivalTime, row.SenderId, row.OriginalSenderId, row.VesselName, row.VoyageNumber, row.RecipientId, row.ContainerCount,row.PlFullCount, row.PlEmptyCount, row.TranshipmentCount,)
 	    rowarray_list.append(t)
+	return rowarray_list
+
+def getSingleManifet(manf_id):
+	cnxn = pyodbc.connect('DRIVER={SQL Server};SERVER=localhost;DATABASE=MYTNIK_CUSCAR;UID=mytnik;PWD=mytnik;CHARSET=UTF8;unicode_results=False')
+	cursor = cnxn.cursor()
+	tmpquerry =""" SELECT [MessageId]
+      ,[UnbReference]
+      ,[SenderId]
+      ,[RecipientId]
+      ,[OriginalSenderId]
+      ,[DocumentNumber]
+      ,[DocumentCreationTime]
+      ,[CarrierCode]
+      ,[VoyageNumber]
+      ,[VesselName]
+      ,[ArrivalPort]
+      ,[ArrivalTime]
+  	FROM [MYTNIK_CUSCAR].[ent].[ve_Message] where [MessageId]='theID' """
+
+  	querry = tmpquerry.replace('theID', manf_id)
+
+	cursor.execute(querry)
+	rows = cursor.fetchall()
+	rowarray_list = []
+	for row in rows:
+		t = (row.MessageId , row.UnbReference ,row.SenderId ,row.RecipientId ,row.OriginalSenderId ,row.DocumentNumber ,row.DocumentCreationTime ,row.CarrierCode ,row.VoyageNumber ,row.VesselName ,row.ArrivalPort ,row.ArrivalTime , )
+		rowarray_list.append(t)
 	return rowarray_list
 
 def getContainers():

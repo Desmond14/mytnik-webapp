@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 
 {% load static %}
-{% load mytags %}
 <html>
 
     <head>
@@ -10,10 +9,12 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1">	
         <title>System analityczny</title>
 		<link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+		<link href="{% static 'css/docs.min.css' %}" rel="stylesheet">
 		<link href="{% static 'css/dashboard.css' %}" rel="stylesheet">
     </head>
 
     <body>
+
     	<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
 	      <div class="container-fluid">
 	        <div class="navbar-header">
@@ -41,70 +42,64 @@
 	      </div>
     	</div>
 
-		<div class="container-fluid">
-			<div class="row">
-				<div class="col-md-1 sidebar">
-					<ul class="nav nav-sidebar">
-			            <li class="active"><a href="/webint/manifesty/">Manifests</a></li>
-			            <li><a id="nav_cont">Containers</a></li>
-			            <li><a id ="nav_bill">Bills</a></li>
-			            <li><a id ="singleManifes" data-toggle="modal" data-target=".bs-example-modal-sm"> Single Manifest </a></li>
-          			</ul>
-          		</div>
-          		<div class="col-md-11 col-md-offset-1" main>
-          			<div class="row table-responsive">
-							<table class="table table-hover tablesorter">
-								<thead>
-									<tr>
-										<th> UNB Reference </th> <th>Sent date</th><th> ETA </th>
-										<th> Sender</th><th> Original sender </th>
-										<th> Vessel name </th><th> Voyage no. </th>
-										<th> Terminal </th> <th> Containers count </th> 
-										<th> PL Full </th><th> PL Empty </th><th> Transhipment </th>
-									</tr>
-								</thead>
-								<tbody>
-									{% num_range 20 as outer_range %}
-									{% num_range 12 as inner_range %} 
-									{% for i in outer_range %}
-										<tr class="success">
-											{% for j in inner_range %}
-												<td id="tr_{{ i }}_td_{{ j }}"></td>
-											{% endfor %}	
-										</tr>
-									{% endfor %}
-								</tbody>  
-							</table>
-          			</div>
-          			<div class="container-fluid">
-          				<center><ul class="pagination">
+    	</br>
+    	<div class="container-fluid">
+    	 <div class="bs-example">
+    		{% for singlemanf in data %}
+    			<dl class="dl-horizontal">
+				  <dt>MessageId</dt>
+				  <dd>{{ singlemanf.0 }}</dd>
+				  <dt>UnbReference</dt>
+				  <dd>{{ singlemanf.1 }}</dd>
+				  <dt>SenderId</dt>
+				  <dd>{{ singlemanf.2 }}</dd>
+				  <dt>RecipientId</dt>
+				  <dd>{{ singlemanf.3 }}</dd>
+				  <dt>OriginalSenderId</dt>
+				  <dd>{{ singlemanf.4 }}</dd>
+				  <dt>DocumentNumber</dt>
+				  <dd>{{ singlemanf.5 }}</dd>
+				  <dt>DocumentCreationTime</dt>
+				  <dd>{{ singlemanf.6 }}</dd>
+				  <dt>CarrierCode</dt>
+				  <dd>{{ singlemanf.7 }}</dd>
+				  <dt>VoyageNumber</dt>
+				  <dd>{{ singlemanf.8 }}</dd>
+				  <dt>VesselName</dt>
+				  <dd>{{ singlemanf.9 }}</dd>
+				  <dt>ArrivalPort</dt>
+				  <dd>{{ singlemanf.10 }}</dd>
+				  <dt>ArrivalTime</dt>
+				  <dd>{{ singlemanf.11 }}</dd>
+				</dl>
+    		{% endfor %}
+    	 </div>
+    	</div>
+    	<div class="container">
+    		<div class="row">
+    			<center><ul class="pagination">
           					<li><a href="#">&laquo;</a></li>
-          					{% for singlepage in number_of_pages %}
+          					{% for singlepage in pagesCont %}
           						<li><a class="linkbutton">{{ singlepage }}</a></li>
           					{% endfor %}
           					<li><a href="#">&raquo;</a></li>
-						</ul></center>
-          			</div>
-          			<hr>
-          		</div>	
-			</div>	
-		</div>
-
-
-	<div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
-  		<div class="modal-dialog modal-sm">
-    		<div class="modal-content">
-     			 <input id="singmanf" type="text" class="form-control" placeholder="Enter Manifest ID">
+				</ul></center>
     		</div>
- 		 </div>
-	</div>
+    		<div class="row">
+    			<center><ul class="pagination">
+          					<li><a href="#">&laquo;</a></li>
+          					{% for singlepage in  pagesBill %}
+          						<li><a class="linkbutton">{{ singlepage }}</a></li>
+          					{% endfor %}
+          					<li><a href="#">&raquo;</a></li>
+				</ul></center>
+    		</div>
+    	</div>
 
-	<script src="{% static 'js/jquery-2.1.0.min.js' %}"></script> 
-	<script type="text/javascript" src="{% static 'js/jquery.tablesorter.js' %}"></script>  
-	<script src="{% static 'js/bootstrap.min.js' %}"></script>
-	<script src="{% static 'js/myajaxjscode.js' %}"></script>
 
+	    <script src="{% static 'js/jquery-2.1.0.min.js' %}"></script> 
+		<script type="text/javascript" src="{% static 'js/jquery.tablesorter.js' %}"></script>  
+		<script src="{% static 'js/bootstrap.min.js' %}"></script>
 
     </body>
-
-</html>
+   </html>
