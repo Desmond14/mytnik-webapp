@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 
 {% load static %}
+{% load mytags %}
 <html>
 
     <head>
@@ -48,7 +49,7 @@
     		{% for singlemanf in data %}
     			<dl class="dl-horizontal">
 				  <dt>MessageId</dt>
-				  <dd>{{ singlemanf.0 }}</dd>
+				  <dd id="storeID">{{ singlemanf.0 }}</dd>
 				  <dt>UnbReference</dt>
 				  <dd>{{ singlemanf.1 }}</dd>
 				  <dt>SenderId</dt>
@@ -75,7 +76,30 @@
     		{% endfor %}
     	 </div>
     	</div>
-    	<div class="container">
+    	<div class="container-fluid">
+    				<div class="row table-responsive">
+							<table class="table table-hover tablesorter">
+								<thead>
+									<tr>
+										<th> Id Vessel </th> <th> Container</th><th> Bill of landing </th>
+										<th> Item No. </th> <th> Type &amp Size</th><th> Status </th>
+										<th> Gross Weight </th> <th> Net Weight </th><th> Volume </th>
+										<th> Package </th> <th> Quantity</th><th> Goods description </th>
+									</tr>
+								</thead>
+								<tbody>
+									{% num_range 20 as outer_range %}
+									{% num_range 12 as inner_range %} 
+									{% for i in outer_range %}
+										<tr class="success">
+											{% for j in inner_range %}
+												<td id="cont_tr_{{ i }}_td_{{ j }}"></td>
+											{% endfor %}	
+										</tr>
+									{% endfor %}
+								</tbody>  
+							</table>
+          			</div>
     		<div class="row">
     			<center><ul class="pagination">
           					<li><a href="#">&laquo;</a></li>
@@ -85,6 +109,27 @@
           					<li><a href="#">&raquo;</a></li>
 				</ul></center>
     		</div>
+     		<div class="row table-responsive">
+							<table class="table table-hover tablesorter">
+								<thead>
+									<tr>
+										<th> UNB Reference </th> <th> Bill of landing</th>
+										<th> Origin Port </th><th> Loading port </th> <th> Discharge port </th>
+									</tr>
+								</thead>
+								<tbody>
+									{% num_range 20 as outer_range %}
+									{% num_range 5 as inner_range %} 
+									{% for i in outer_range %}
+										<tr class="success">
+											{% for j in inner_range %}
+												<td id="bill_tr_{{ i }}_td_{{ j }}"></td>
+											{% endfor %}	
+										</tr>
+									{% endfor %}
+								</tbody>  
+							</table>
+          	</div>   		
     		<div class="row">
     			<center><ul class="pagination">
           					<li><a href="#">&laquo;</a></li>
@@ -100,6 +145,7 @@
 	    <script src="{% static 'js/jquery-2.1.0.min.js' %}"></script> 
 		<script type="text/javascript" src="{% static 'js/jquery.tablesorter.js' %}"></script>  
 		<script src="{% static 'js/bootstrap.min.js' %}"></script>
+		<script src="{% static 'js/singlemanifestajax.js' %}"></script>
 
     </body>
    </html>

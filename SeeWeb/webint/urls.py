@@ -10,4 +10,5 @@ urlpatterns = patterns('',
 		url(r'^logout/',views.mylogout, name = 'logout'),
 		url(r'^not_logged_in/',views.not_logged_in, name ='not_logged_in'),
 		url(r'^manifestID/(?P<manifestID>\w*-\w*-\w*-\w*-\w*)/$', views.single_manifest_details, name='single_manifest_details'),
+		url(r'^ajax/id/(?P<manifestID>\w*-\w*-\w*-\w*-\w*)/page/(?P<pagenumber>\d+)/$',views.ajax_bills_per_manifest , name='ajaxbills'),
 		url(r'^page/(?P<pagenumber>\d+)/$', views.test_ajax, name='ajaxtest'),)

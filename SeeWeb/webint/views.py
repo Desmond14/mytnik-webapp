@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.template import RequestContext
 from django.shortcuts import render_to_response
 from django.http import HttpResponse
-from algorithms.basic import getManifests, getSingleManifet, getNumberOfContainers, getNumberOfBills
+from algorithms.basic import getManifests, getSingleManifet, getNumberOfContainers, getNumberOfBills, getBills_per_manifest
 from algorithms.basic import getContainers
 from algorithms.basic import getBills
 from algorithms.basic import getNumberOfManifests
@@ -89,6 +89,13 @@ def test_ajax(request, pagenumber):
 		context = RequestContext(request)
 		data = getManifests( int( pagenumber ) )
 		return HttpResponse(json.dumps(data), content_type = "application/json")
+
+def ajax_bills_per_manifest(request, pagenumber, manifestID ):
+	if request.user.is_authenticated():
+		context = RequestContext(request)
+		data = getBills_per_manifest( int( pagenumber ), manifestID )
+		return HttpResponse(json.dumps(data), content_type = "application/json")
+
 
 def single_manifest_details(request, manifestID):
 	if request.user.is_authenticated():

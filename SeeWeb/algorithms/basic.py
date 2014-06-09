@@ -43,6 +43,33 @@ def getManifests(pagenum):
 	    rowarray_list.append(t)
 	return rowarray_list
 
+def getContainers_per_manifest(pagenum):
+	cnxn = pyodbc.connect('DRIVER={SQL Server};SERVER=localhost;DATABASE=MYTNIK_CUSCAR;UID=mytnik;PWD=mytnik;CHARSET=UTF8;unicode_results=False')
+	cursor = cnxn.cursor()
+	pass
+
+def getBills_per_manifest(pagenum, manf_id):
+	cnxn = pyodbc.connect('DRIVER={SQL Server};SERVER=localhost;DATABASE=MYTNIK_CUSCAR;UID=mytnik;PWD=mytnik;CHARSET=UTF8;unicode_results=False')
+	cursor = cnxn.cursor()
+	ftmpquerry = """ 
+				select newtable.UnbReference , newtable.BillofLading, newtable.OriginPort , newtable.LoadingPort , newtable.DischargePort
+				from ( SELECT ROW_NUMBER() OVER (ORDER BY ent.ve_Message.UnbReference ) as ROW,ent.ve_Message.MessageId ,ent.ve_Message.UnbReference , BillofLading, OriginPort , LoadingPort , DischargePort
+				from  ent.ve_Message  INNER JOIN ent.ve_CargoDetails on ent.ve_Message.MessageId=ent.ve_CargoDetails.MessageId where ent.ve_Message.MessageId='theID' )
+				as newtable where newtable.Row >= MYMIN and newtable.Row < MYMAX order by newtable.UnbReference 
+				"""
+	stmpquerry = ftmpquerry.replace('theID', manf_id)
+	ttmpquerry = stmpquerry.replace('MYMIN', str(pagenum * 20 + 1) )
+	querry = ttmpquerry.replace('MYMAX', str( pagenum * 20 + 20 + 1 ))
+	cursor.execute(querry)
+
+	rows = cursor.fetchall()
+	rowarray_list = []
+	for row in rows:
+		t = (row.UnbReference , row.BillofLading , row.OriginPort , row.LoadingPort , row.DischargePort)
+		rowarray_list.append(t)
+	return rowarray_list
+
+
 def getSingleManifet(manf_id):
 	cnxn = pyodbc.connect('DRIVER={SQL Server};SERVER=localhost;DATABASE=MYTNIK_CUSCAR;UID=mytnik;PWD=mytnik;CHARSET=UTF8;unicode_results=False')
 	cursor = cnxn.cursor()
