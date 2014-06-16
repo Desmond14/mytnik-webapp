@@ -43,10 +43,29 @@ def getManifests(pagenum):
 	    rowarray_list.append(t)
 	return rowarray_list
 
-def getContainers_per_manifest(pagenum):
+def getContainers_per_manifest(pagenum, manf_id):
 	cnxn = pyodbc.connect('DRIVER={SQL Server};SERVER=localhost;DATABASE=MYTNIK_CUSCAR;UID=mytnik;PWD=mytnik;CHARSET=UTF8;unicode_results=False')
 	cursor = cnxn.cursor()
-	pass
+	ftmpquerry = """ select newtable.MessageId ,newtable.UnbReference,  newtable.ContainerIdentifier,  newtable.BillofLading, CEILING (newtable.goodsitem) as goods , newtable.ContainerType, newtable.ContainerStatus ,CEILING( newtable.grossweightvla) as b, newtable.NetWeightValue, CEILING( newtable.grossvolval ) as c, newtable.PackagesDescType, CEILING ( newtable.goodsitemnumber ) as ww, newtable.FreeTextLine1
+from ( select ROW_NUMBER() OVER (ORDER BY ent.ve_Message.UnbReference ) as ROW ,ent.ve_Message.MessageId ,ent.ve_Message.UnbReference,  ent.ve_Container.ContainerIdentifier,  ent.ve_CargoDetails.BillofLading, CEILING (ent.ve_GoodsIdent.GoodsItemNumber) as goodsitem , ent.ve_Container.ContainerType, ent.ve_Container.ContainerStatus ,CEILING( ent.ve_Container.GrossWeightValue) as grossweightvla, ent.ve_Container.NetWeightValue, CEILING( ent.ve_Container.GrossVolumeValue ) as grossvolval, ent.ve_GoodsIdent.PackagesDescType, CEILING ( ent.ve_GoodsIdent.GoodsItemNumber ) as goodsitemnumber, ent.ve_GoodsIdentFreeText.FreeTextLine1   from ent.ve_ContainerView
+	inner join ent.ve_Message on ent.ve_ContainerView.MessageId = ent.ve_Message.MessageId
+	inner join ent.ve_CargoDetails on ent.ve_ContainerView.CargoDetailsId = ent.ve_CargoDetails.CargoDetailsId
+	inner join ent.ve_Container on ent.ve_ContainerView.ContainerId =  ent.ve_Container.ContainerId
+	inner join ent.ve_GoodsIdent on ent.ve_ContainerView.GoodsIdentId = ent.ve_GoodsIdent.GoodsIdentId
+	INNER join ent.ve_GoodsIdentFreeText on ent.ve_ContainerView.GoodsIdentId = ent.ve_GoodsIdentFreeText.GoodsIdentId
+	where ent.ve_Message.MessageId ='theID' ) as newtable where newtable.Row >= MYMIN and newtable.Row < MYMAX 
+	 """
+	stmpquerry = ftmpquerry.replace('theID', manf_id)
+	ttmpquerry = stmpquerry.replace('MYMIN', str(pagenum * 20 + 1) )
+	querry = ttmpquerry.replace('MYMAX', str( pagenum * 20 + 20 + 1 ))
+	cursor.execute(querry)
+
+	rows = cursor.fetchall()
+	rowarray_list = []
+	for row in rows:
+		t = (row.MessageId , row.UnbReference , row.ContainerIdentifier , row.BillofLading , row.goods , row.ContainerType , row.ContainerStatus , row.b , row.NetWeightValue , row.c , row.PackagesDescType , row.ww , row.FreeTextLine1)
+		rowarray_list.append(t)
+	return rowarray_list
 
 def getBills_per_manifest(pagenum, manf_id):
 	cnxn = pyodbc.connect('DRIVER={SQL Server};SERVER=localhost;DATABASE=MYTNIK_CUSCAR;UID=mytnik;PWD=mytnik;CHARSET=UTF8;unicode_results=False')

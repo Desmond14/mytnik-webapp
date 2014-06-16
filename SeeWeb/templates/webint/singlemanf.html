@@ -81,7 +81,7 @@
 							<table class="table table-hover tablesorter">
 								<thead>
 									<tr>
-										<th> Id Vessel </th> <th> Container</th><th> Bill of landing </th>
+										<th> Manifest Id </th><th> Id Vessel </th> <th> Container</th><th> Bill of landing </th>
 										<th> Item No. </th> <th> Type &amp Size</th><th> Status </th>
 										<th> Gross Weight </th> <th> Net Weight </th><th> Volume </th>
 										<th> Package </th> <th> Quantity</th><th> Goods description </th>
@@ -89,7 +89,7 @@
 								</thead>
 								<tbody>
 									{% num_range 20 as outer_range %}
-									{% num_range 12 as inner_range %} 
+									{% num_range 13 as inner_range %} 
 									{% for i in outer_range %}
 										<tr class="success">
 											{% for j in inner_range %}
@@ -104,7 +104,7 @@
     			<center><ul class="pagination">
           					<li><a href="#">&laquo;</a></li>
           					{% for singlepage in pagesCont %}
-          						<li><a class="linkbutton">{{ singlepage }}</a></li>
+          						<li><a class="contlinkbutton">{{ singlepage }}</a></li>
           					{% endfor %}
           					<li><a href="#">&raquo;</a></li>
 				</ul></center>

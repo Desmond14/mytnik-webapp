@@ -3,7 +3,7 @@ from django.template import RequestContext
 from django.shortcuts import render_to_response
 from django.http import HttpResponse
 from algorithms.basic import getManifests, getSingleManifet, getNumberOfContainers, getNumberOfBills, getBills_per_manifest
-from algorithms.basic import getContainers
+from algorithms.basic import getContainers , getContainers_per_manifest
 from algorithms.basic import getBills
 from algorithms.basic import getNumberOfManifests
 from django.contrib.auth.models import User
@@ -11,6 +11,14 @@ from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponseRedirect, HttpResponse
 import json , math
 from decimal import *
+
+import decimal
+from django.utils import simplejson
+
+def json_encode_decimal(obj):
+    if isinstance(obj, decimal.Decimal):
+        return str(obj)
+    raise TypeError(repr(obj) + " is not JSON serializable")
 	
 def index(request):
 	if request.user.is_authenticated():
@@ -95,6 +103,12 @@ def ajax_bills_per_manifest(request, pagenumber, manifestID ):
 		context = RequestContext(request)
 		data = getBills_per_manifest( int( pagenumber ), manifestID )
 		return HttpResponse(json.dumps(data), content_type = "application/json")
+
+def ajax_conts_per_manifest(request, pagenumber, manifestID ):
+	if request.user.is_authenticated():
+		context = RequestContext(request)
+		data = getContainers_per_manifest( int( pagenumber ), manifestID )
+		return HttpResponse(simplejson.dumps(data, default=json_encode_decimal), content_type = "application/json")
 
 
 def single_manifest_details(request, manifestID):
