@@ -3,6 +3,23 @@ $( document ).ready(function() {
 	console.log("Zaczynamy Ajaxa");
 	$("table").tablesorter();
 
+	$( ".single_row" ).dblclick(function() {
+
+
+		var row_with_data = $(this).text();
+		// replacing multiple spaces
+		var str_with_no_multiple_spaces = row_with_data.replace(/\s{2,}/g, ' ');
+		if( str_with_no_multiple_spaces != " ")
+		{
+			var unbref = str_with_no_multiple_spaces.split(" ")[1];
+			var myURL = 'http://127.0.0.1:8000/webint/unbreference/'.concat(unbref);
+		    window.open(myURL,unbref);
+		}
+
+	});
+
+
+    /* NIE UZYWANE
 	$("#singmanf").keyup(function (e) {
 	    if (e.keyCode == 13) {
 	        // Do something
@@ -10,6 +27,8 @@ $( document ).ready(function() {
 	        window.open(myURL,'Singel Manifest');
 	    }
 	});
+
+    */
 
 	$(".linkbutton").click( function() {
 
@@ -29,8 +48,6 @@ $( document ).ready(function() {
 		    // the response is passed to the function
 		    success: function( data ) {
 
-		    	console.log(data.length);
-		    	console.log(data[0].length);
 		        for(var i=0 ; i < data.length ; i++)
 		        {
 		        	var str1 ="#tr_";

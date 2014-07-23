@@ -9,6 +9,7 @@
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta name="viewport" content="width=device-width, initial-scale=1">	
         <title>System analityczny</title>
+        <link rel="icon" href="{% static 'icons/manifests.ico' %}" type="image/x-ico; charset=binary">
 		<link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
 		<link href="{% static 'css/dashboard.css' %}" rel="stylesheet">
     </head>
@@ -45,10 +46,10 @@
 			<div class="row">
 				<div class="col-md-1 sidebar">
 					<ul class="nav nav-sidebar">
-			            <li class="active"><a href="/webint/manifesty/">Manifests</a></li>
-			            <li><a id="nav_cont">Containers</a></li>
-			            <li><a id ="nav_bill">Bills</a></li>
-			            <li><a id ="singleManifes" data-toggle="modal" data-target=".bs-example-modal-sm"> Single Manifest </a></li>
+			            <li class="active"><a href="/webint/">Manifests</a></li>
+			            <li><a href="/webint/manifest_no_ajax/" id="nav_cont">Manifests no Ajax</a></li>
+			            <li><a href="/webint/containers/" id="nav_cont">Containers</a></li>
+			            <li><a href="/webint/bills/" id ="nav_bill">Bills</a></li>
           			</ul>
           		</div>
           		<div class="col-md-11 col-md-offset-1" main>
@@ -67,7 +68,7 @@
 									{% num_range 20 as outer_range %}
 									{% num_range 12 as inner_range %} 
 									{% for i in outer_range %}
-										<tr class="success">
+										<tr class="success single_row" id="my_row_{{ i }}">
 											{% for j in inner_range %}
 												<td id="tr_{{ i }}_td_{{ j }}"></td>
 											{% endfor %}	
@@ -90,20 +91,13 @@
 			</div>	
 		</div>
 
-
-	<div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
-  		<div class="modal-dialog modal-sm">
-    		<div class="modal-content">
-     			 <input id="singmanf" type="text" class="form-control" placeholder="Enter Manifest ID">
-    		</div>
- 		 </div>
-	</div>
-
 	<script src="{% static 'js/jquery-2.1.0.min.js' %}"></script> 
+	<script src="{% static 'js/filteringManifests.js' %}"></script>	
 	<script type="text/javascript" src="{% static 'js/jquery.tablesorter.js' %}"></script>  
 	<script src="{% static 'js/bootstrap.min.js' %}"></script>
 	<script src="{% static 'js/myajaxjscode.js' %}"></script>
 	<script src="{% static 'js/filteringManifests.js' %}"></script>
+
 
     </body>
 

@@ -10,7 +10,7 @@ def getNumberOfManifests():
 def getNumberOfContainers(manf_id):
 	cnxn = pyodbc.connect('DRIVER={SQL Server};SERVER=localhost;DATABASE=MYTNIK_CUSCAR;UID=mytnik;PWD=mytnik;CHARSET=UTF8;unicode_results=False')
 	cursor = cnxn.cursor()
-	tmpquerry= "SELECT  COUNT(*) FROM [MYTNIK_CUSCAR].[ent].[ve_Container] where ManifestId = 'theID' "
+	tmpquerry= "SELECT  COUNT(*) FROM [MYTNIK_CUSCAR].[ent].[ve_Container] inner join ent.ve_Message on ent.ve_Message.MessageId = ent.ve_Container.ManifestId where UnbReference = 'theID' "
 	querry = tmpquerry.replace('theID', manf_id)
 	cursor.execute(querry)
 	rows = cursor.fetchall()
@@ -19,7 +19,7 @@ def getNumberOfContainers(manf_id):
 def getNumberOfBills(manf_id):
 	cnxn = pyodbc.connect('DRIVER={SQL Server};SERVER=localhost;DATABASE=MYTNIK_CUSCAR;UID=mytnik;PWD=mytnik;CHARSET=UTF8;unicode_results=False')
 	cursor = cnxn.cursor()
-	tmpquerry = "SELECT  COUNT(*) from ent.ve_Message  inner join ent.ve_CargoDetails on ent.ve_Message.MessageId=ent.ve_CargoDetails.MessageId where ent.ve_Message.MessageId ='theID' "
+	tmpquerry = "SELECT  COUNT(*) from ent.ve_Message  inner join ent.ve_CargoDetails on ent.ve_Message.MessageId=ent.ve_CargoDetails.MessageId where ent.ve_Message.UnbReference ='theID' "
 	 
 	querry = tmpquerry.replace('theID', manf_id)
 	print querry
@@ -40,6 +40,18 @@ def getManifests(pagenum):
 	rowarray_list = []
 	for row in rows:
 	    t = (row.UnbReference, row.DocumentCreationTime, row.ArrivalTime, row.SenderId, row.OriginalSenderId, row.VesselName, row.VoyageNumber, row.RecipientId, row.ContainerCount,row.PlFullCount, row.PlEmptyCount, row.TranshipmentCount,)
+	    rowarray_list.append(t)
+	return rowarray_list
+
+def getManifestsNoAjax():
+	cnxn = pyodbc.connect('DRIVER={SQL Server};SERVER=localhost;DATABASE=MYTNIK_CUSCAR;UID=mytnik;PWD=mytnik;CHARSET=UTF8;unicode_results=False')
+	cursor = cnxn.cursor()
+	cursor.execute("select UnbReference  AS a , DocumentCreationTime  AS b , ArrivalTime AS c , SenderId AS d  ,OriginalSenderId  AS e , VesselName AS f , VoyageNumber AS g  , RecipientId AS h, ent.ve_MessageContainerStatistics.ContainerCount AS i, ent.ve_MessageContainerStatistics.PlFullCount AS j, ent.ve_MessageContainerStatistics.PlEmptyCount AS k, ent.ve_MessageContainerStatistics.TranshipmentCount AS l from ent.ve_Message inner join ent.ve_MessageContainerStatistics on ent.ve_Message.MessageId=ent.ve_MessageContainerStatistics.messageId")
+	rows = cursor.fetchall()
+
+	rowarray_list = []
+	for row in rows:
+	    t = (row.a, row.b, row.c, row.d, row.e, row.f, row.g, row.h, row.i,row.j, row.k, row.l,)
 	    rowarray_list.append(t)
 	return rowarray_list
 
@@ -104,7 +116,7 @@ def getSingleManifet(manf_id):
       ,[VesselName]
       ,[ArrivalPort]
       ,[ArrivalTime]
-  	FROM [MYTNIK_CUSCAR].[ent].[ve_Message] where [MessageId]='theID' """
+  	FROM [MYTNIK_CUSCAR].[ent].[ve_Message] where [UnbReference]='theID' """
 
   	querry = tmpquerry.replace('theID', manf_id)
 
@@ -115,6 +127,14 @@ def getSingleManifet(manf_id):
 		t = (row.MessageId , row.UnbReference ,row.SenderId ,row.RecipientId ,row.OriginalSenderId ,row.DocumentNumber ,row.DocumentCreationTime ,row.CarrierCode ,row.VoyageNumber ,row.VesselName ,row.ArrivalPort ,row.ArrivalTime , )
 		rowarray_list.append(t)
 	return rowarray_list
+
+def getSimpleContainers():
+	cnxn = pyodbc.connect('DRIVER={SQL Server};SERVER=localhost;DATABASE=MYTNIK_CUSCAR;UID=mytnik;PWD=mytnik')
+	cursor = cnxn.cursor()
+	querry = """select UnbReference,ContainerIdentifier ,ContainerType, ContainerLoad from ent.ve_Message inner join ent.ve_Container on ve_Message.MessageId = ve_Container.ManifestId"""
+	cursor.execute(querry)
+	rows = cursor.fetchall()
+	return rows
 
 def getContainers():
 	cnxn = pyodbc.connect('DRIVER={SQL Server};SERVER=localhost;DATABASE=MYTNIK_CUSCAR;UID=mytnik;PWD=mytnik')

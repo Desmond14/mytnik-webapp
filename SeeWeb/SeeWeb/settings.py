@@ -45,7 +45,7 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-	   'webint',
+	'webint',
 
 )
 
@@ -59,6 +59,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
+
 
 ROOT_URLCONF = 'SeeWeb.urls'
 
@@ -83,6 +84,13 @@ DATABASES = {
         'ENGINE': 'django.db.backends.sqlite3',
        }
    }
+
+# CACHES = {
+#     'default': {
+#         'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
+#         'LOCATION': 'E:\gitinzKopia\gitInz\mytnik-webapp\SeeWeb\cache',
+#     }
+# }
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.6/topics/i18n/
