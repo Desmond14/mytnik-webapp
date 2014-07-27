@@ -12,7 +12,7 @@
         <link rel="icon" href="{% static 'icons/manifests.ico' %}" type="image/x-ico; charset=binary">
 		<link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
 		<link href="{% static 'css/dashboard.css' %}" rel="stylesheet">
-		<link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.1/css/jquery.dataTables.css">
+		<link href="{% static 'css/dataTables.bootstrap.css' %}" rel="stylesheet">
     </head>
 
     <body>
@@ -81,10 +81,11 @@
 			</div>	
 		</div>
 
-	<script src="{% static 'js/jquery-2.1.0.min.js' %}"></script> 
-	<script src="{% static 'js/bootstrap.min.js' %}"></script>
-	<script type="text/javascript" charset="utf8" src="//cdn.datatables.net/1.10.1/js/jquery.dataTables.js"></script>
-	<script src="{% static 'js/bills.js' %}"></script>
+		<script src="{% static 'js/jquery-2.1.0.min.js' %}"></script> 
+		<script src="{% static 'js/bootstrap.min.js' %}"></script>
+		<script type="text/javascript" charset="utf8" src="//cdn.datatables.net/1.10.1/js/jquery.dataTables.js"></script>
+		<script src="{% static 'js/bills.js' %}"></script>
+		<script src="{% static 'js/dataTables.bootstrap.js' %}"></script>
     </body>
 
 </html>

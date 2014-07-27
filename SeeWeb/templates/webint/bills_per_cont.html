@@ -48,9 +48,8 @@
 				<div class="col-md-1 sidebar">
 					<ul class="nav nav-sidebar">
 			            <li><a href="/webint/">Manifests</a></li>
-			            <li class="active"><a href="/webint/containers/" id="nav_cont">Containers</a></li>
-
-			            <li><a href="/webint/bills/" id ="nav_bill">Bills</a></li>
+			            <li><a href="/webint/containers/" id="nav_cont">Containers</a></li>
+			            <li class="active"><a href="/webint/bills/" id ="nav_bill">Bills</a></li>
 			            
           			</ul>
           		</div>
@@ -59,15 +58,19 @@
           				<table id="table_id" class="display table table-hover">
 						    <thead>
 						        <tr>
-						            <th>Unb Reference</th>
-						            <th>Container Identifier</th>
-						            <th>Container Type</th>
-						            <th>Container Load</th>
+						            <th>ContainerIdentifier</th>
+						            <th>BillofLading</th>
+						            <th>Origin Port</th>
+						            <th>Loading Port</th>
+						            <th>Discharge Port</th>
+						            <th>CityName</th>
+						            <th>Country</th>
+						            <th>NameAndAddressId</th>
 						        </tr>
 						    </thead>
 						    <tbody>
-						    	{% for inner_list in cont_list %}
-										<tr class="single_row">
+						    	{% for inner_list in bill_list %}
+										<tr>
 											{% for field in inner_list %}
 												<td> {{ field }} </td>
 											{% endfor %}	
@@ -84,7 +87,7 @@
 		<script src="{% static 'js/jquery-2.1.0.min.js' %}"></script> 
 		<script src="{% static 'js/bootstrap.min.js' %}"></script>
 		<script type="text/javascript" charset="utf8" src="//cdn.datatables.net/1.10.1/js/jquery.dataTables.js"></script>
-		<script src="{% static 'js/containers.js' %}"></script>
+		<script src="{% static 'js/bills.js' %}"></script>
 		<script src="{% static 'js/dataTables.bootstrap.js' %}"></script>
     </body>
 

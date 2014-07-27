@@ -3,7 +3,7 @@ from django.template import RequestContext
 from django.shortcuts import render_to_response
 from django.http import HttpResponse
 from algorithms.basic import getManifests, getSingleManifet, getNumberOfContainers, getNumberOfBills, getBills_per_manifest,getManifestsNoAjax
-from algorithms.basic import getContainers , getContainers_per_manifest
+from algorithms.basic import getContainers , getContainers_per_manifest, getBillsforCont
 from algorithms.basic import getBills, getSimpleContainers
 from algorithms.basic import getNumberOfManifests
 from django.contrib.auth.models import User
@@ -139,6 +139,16 @@ def ajax_conts_per_manifest(request, pagenumber, manifestID ):
 		context = RequestContext(request)
 		data = getContainers_per_manifest( int( pagenumber ), manifestID )
 		return HttpResponse(simplejson.dumps(data, default=json_encode_decimal), content_type = "application/json")
+
+def bills_per_cont(request, containerID):
+	if request.user.is_authenticated():
+		context = RequestContext(request)
+		bill_list = getBillsforCont(containerID)
+		context_dict = {'bill_list': bill_list}
+		return render_to_response('webint/bills_per_cont.html', context_dict, context)
+	else:
+		return  HttpResponseRedirect('/webint/not_logged_in')
+
 
 def unb_single_manifest_details(request, unbRef):
 	if request.user.is_authenticated():

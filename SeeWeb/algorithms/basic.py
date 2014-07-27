@@ -159,3 +159,18 @@ def getBills():
 	cursor.execute(querry)
 	rows = cursor.fetchall()
 	return rows
+
+def getBillsforCont(ContainerId):
+	cnxn = pyodbc.connect('DRIVER={SQL Server};SERVER=localhost;DATABASE=MYTNIK_CUSCAR;UID=mytnik;PWD=mytnik')
+	cursor = cnxn.cursor()
+	ftmpquerry="""select  a.ContainerIdentifier, b.BillofLading, b.OriginPort , b.LoadingPort , b.DischargePort, c.CityName, c.Country, c.NameAndAddressId from ent.ve_ContainerView 
+	inner join  ent.ve_Container as a on ent.ve_ContainerView.ContainerId=a.ContainerId
+	inner join  ent.ve_CargoDetails as b on ent.ve_ContainerView.CargoDetailsId=b.CargoDetailsId
+	inner join  ent.ve_CargoDetailsNameAndAddress as c on b.CargoDetailsId=c.CargoDetailsId
+	where a.ContainerIdentifier='theID' 
+	"""
+	querry = ftmpquerry.replace('theID', ContainerId)
+	print querry
+	cursor.execute(querry)
+	rows = cursor.fetchall()
+	return rows
