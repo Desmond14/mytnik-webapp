@@ -55,7 +55,7 @@
           		</div>
           		<div class="col-md-11 col-md-offset-1" main>
           			<div class="row table-responsive">
-          				<table id="table_id" class="display table table-hover">
+          				<table id="bills" class="display table table-hover">
 						    <thead>
 						        <tr>
 						            <th>Unb Reference</th>
@@ -65,27 +65,20 @@
 						            <th>Discharge Port</th>
 						        </tr>
 						    </thead>
-						    <tbody>
-						    	{% for inner_list in bill_list %}
-										<tr>
-											{% for field in inner_list %}
-												<td> {{ field }} </td>
-											{% endfor %}	
-										</tr>
-								{% endfor %}
-						    </tbody>
 						</table>						
           			</div>
-          			<hr>
-          		</div>	
+				<hr>
+			</div>	
 			</div>	
 		</div>
 
 		<script src="{% static 'js/jquery-2.1.0.min.js' %}"></script> 
 		<script src="{% static 'js/bootstrap.min.js' %}"></script>
-		<script type="text/javascript" charset="utf8" src="//cdn.datatables.net/1.10.1/js/jquery.dataTables.js"></script>
-		<script src="{% static 'js/bills.js' %}"></script>
+		<script src="{% static 'js/jquery.dataTables.js' %}"></script>
 		<script src="{% static 'js/dataTables.bootstrap.js' %}"></script>
+		<script src="{% static 'js/bills.js' %}"></script>
+		<script src="{% static 'js/ajax_datatables.js' %}"></script>
+		
     </body>
 
 </html>

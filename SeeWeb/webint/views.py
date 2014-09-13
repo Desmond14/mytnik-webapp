@@ -40,14 +40,45 @@ def index(request):
 def manifests_no_ajax(request):
     if request.user.is_authenticated():
         context = RequestContext(request)
-        manif_list = getManifestsNoAjax()
-        conta_list = getContainers()
-        bills_list = getBills()
-        context_dict = {'outer_list': manif_list, 'cont_outer_list': conta_list, 'bills_outer_list': bills_list}
+        #manif_list = getManifestsNoAjax()
+        #conta_list = getContainers()
+        #bills_list = getBills()
+        context_dict = {}
         return render_to_response('webint/manifest_no_ajax.html', context_dict, context)
     else:
         return HttpResponseRedirect('/webint/not_logged_in')
+    
+def manifests_datatables(request):
+    if request.user.is_authenticated():
+        context = RequestContext(request)
+        items_list = getManifestsNoAjax()
+        items_list_dict = {}
+        items_list_dict.update({'aaData': items_list})
+        return HttpResponse(json.dumps(items_list_dict), 'application/json')
+    
+def containers_datatables(request):
+    if request.user.is_authenticated():
+        context = RequestContext(request)
+        items_list = getContainers()
+        items_list_dict = {}
+        items_list_dict.update({'aaData': items_list})
+        return HttpResponse(json.dumps(items_list_dict), 'application/json')
 
+def bills_datatables(request):
+    if request.user.is_authenticated():
+        context = RequestContext(request)
+        items_list = getBills()
+        items_list_dict = {}
+        items_list_dict.update({'aaData': items_list})
+        return HttpResponse(json.dumps(items_list_dict), 'application/json')
+
+def bills_per_cont_datatables(request, containerID):
+    if request.user.is_authenticated():
+        context = RequestContext(request)
+        items_list = getBillsforCont(containerID)
+        items_list_dict = {}
+        items_list_dict.update({'aaData': items_list})
+        return HttpResponse(json.dumps(items_list_dict), 'application/json')
 
 def containers_view(request):
     if request.user.is_authenticated():
@@ -63,8 +94,8 @@ def containers_view(request):
 def bills_view(request):
     if request.user.is_authenticated():
         context = RequestContext(request)
-        bill_list = getBills()
-        context_dict = {'bill_list': bill_list}
+        #bill_list = getBills()
+        context_dict = {}
         return render_to_response('webint/bills.html', context_dict, context)
     else:
         return HttpResponseRedirect('/webint/not_logged_in')
@@ -160,8 +191,7 @@ def ajax_conts_per_manifest(request, pagenumber, manifestID):
 def bills_per_cont(request, containerID):
     if request.user.is_authenticated():
         context = RequestContext(request)
-        bill_list = getBillsforCont(containerID)
-        context_dict = {'bill_list': bill_list}
+        context_dict = {}
         return render_to_response('webint/bills_per_cont.html', context_dict, context)
     else:
         return HttpResponseRedirect('/webint/not_logged_in')
