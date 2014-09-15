@@ -2,7 +2,7 @@ from django.conf.urls import patterns, url
 from webint import views
 
 urlpatterns = patterns('',
-        url(r'^$', views.index, name='index'),
+        url(r'^$', views.manifests_no_ajax, name='no_ajax'),
         url(r'^manifest_no_ajax/', views.manifests_no_ajax, name ='no_ajax'),
         url(r'^manifests_datatables/', views.manifests_datatables, name ='manifests_datatables'),
         url(r'^containers_datatables/', views.containers_datatables, name ='containers_datatables'),
