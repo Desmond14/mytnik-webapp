@@ -17,4 +17,5 @@ urlpatterns = patterns('',
 		url(r'^unbreference/(?P<unbRef>\w*)/$',views.unb_single_manifest_details,name='unb_single_manifest_details'),
 		url(r'^ajax/id/(?P<manifestID>\w*-\w*-\w*-\w*-\w*)/page/(?P<pagenumber>\d+)/$',views.ajax_bills_per_manifest , name='ajaxbills'),
 		url(r'^ajax/cont/(?P<manifestID>\w*-\w*-\w*-\w*-\w*)/page/(?P<pagenumber>\d+)/$',views.ajax_conts_per_manifest , name='ajaxcont'),
-		url(r'^page/(?P<pagenumber>\d+)/$', views.test_ajax, name='ajaxtest'),)
+		url(r'^page/(?P<pagenumber>\d+)/$', views.test_ajax, name='ajaxtest'),
+        url(r'^containers/status/', views.update_status, name="update_status"))

@@ -163,9 +163,14 @@ def getContainersWithStatus():
             status = ContainerStatus(container_id=container_id)
             print "Created Status for container " + container_id
             status.save()
+        if status.assignee is not None:
+            username = status.assignee.username
+            print username, container_id
+        else:
+            username = ""
         resulting_container = (
             container.UnbReference, container.ContainerIdentifier, container.ContainerType, container.ContainerLoad,
-            status.status, status.assignee)
+            status.status, username)
         containers_with_status.append(resulting_container)
     return containers_with_status
 

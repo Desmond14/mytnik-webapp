@@ -2,6 +2,7 @@
 
 {% load static %}
 {% load mytags %}
+{% csrf_token %}
 <html>
 
 <head>
@@ -78,7 +79,7 @@
                             <td>{{ container.2 }}</td>
                             <td>{{ container.3 }}</td>
                             <td>
-                                <select>
+                                <select onchange="sendRequest(this)">
                                     {% if container.4 == "NA" %}
                                         <option value="NA"></option>
                                         <option value="IP">In progress</option>
@@ -87,7 +88,7 @@
                                         <option value="NA"></option>
                                         <option value="IP" selected>In progress</option>
                                         <option value="DO">Done</option>
-                                    {% else  %}
+                                    {% else %}
                                         <option value="NA"></option>
                                         <option value="IP">In progress</option>
                                         <option value="DO" selected>Done</option>
@@ -95,10 +96,14 @@
                                 </select>
                             </td>
                             <td>
-                                <select>
+                                <select onchange="updateAssignee(this)">
                                     <option value="NA"></option>
                                     {% for user in users %}
-                                        <option value={{ user }} >{{ user }}</option>
+                                        {% if container.5  == user  %}
+                                            <option value="{{ user }}" selected>{{ user }}</option>
+                                        {% else %}
+                                            <option value="{{ user }}">{{ user }}</option>
+                                        {% endif %}
                                     {% endfor %}
                                 </select>
                             </td>
@@ -121,6 +126,61 @@
 <script type="text/javascript" charset="utf8" src="//cdn.datatables.net/1.10.1/js/jquery.dataTables.js"></script>
 <script src="{% static 'js/containers.js' %}"></script>
 <script src="{% static 'js/dataTables.bootstrap.js' %}"></script>
+{#<script src="//cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>#}
+<script>
+    function sendRequest(select) {
+        new_assignee = select.options[select.selectedIndex].text;
+        console.log(new_assignee);
+        if (new_assignee == "In progress") {
+            new_assignee = "IP";
+        } else if (new_assignee == "Done") {
+            new_assignee = "DO";
+        } else {
+            new_assignee = "NA";
+        }
+        var row = $(select).parent().parent();
+        var container_id = $(row).children('td').eq(1).text();
+        console.log(container_id);
+        var theURL = "http://127.0.0.1:8000/webint/page/0/";
+
+        $.ajax({
+            url: theURL,
+            data: {
+                container: container_id,
+                new_status: new_assignee,
+                csrfmiddlewaretoken: '{{ csrf_token }}'
+            },
+            dataType: "json",
+            type: "POST",
+            success: function() {
+                console.log("success");
+            }
+        });
+    }
+
+    function updateAssignee(select) {
+        new_assignee = select.options[select.selectedIndex].text;
+        console.log(new_assignee);
+        var row = $(select).parent().parent();
+        var container_id = $(row).children('td').eq(1).text();
+        console.log(container_id);
+        var theURL = "http://127.0.0.1:8000/webint/page/0/";
+
+        $.ajax({
+            url: theURL,
+            data: {
+                container: container_id,
+                new_assignee: new_assignee,
+                csrfmiddlewaretoken: '{{ csrf_token }}'
+            },
+            dataType: "json",
+            type: "POST",
+            success: function() {
+                console.log("success");
+            }
+        });
+    }
+</script>
 </body>
 
 </html>

@@ -1,21 +1,21 @@
-from django.shortcuts import render
+import json
+import math
+import decimal
+
 from django.template import RequestContext
 from django.shortcuts import render_to_response
-from django.http import HttpResponse
+from django.contrib.auth.models import User
+from django.contrib.auth import authenticate, login, logout
+from django.http import HttpResponseRedirect, HttpResponse
+from django.utils import simplejson
+
 from algorithms.basic import getManifests, getSingleManifet, getNumberOfContainers, getNumberOfBills, \
     getBills_per_manifest, getManifestsNoAjax, \
     getContainersWithStatus
 from algorithms.basic import getContainers, getContainers_per_manifest, getBillsforCont
-from algorithms.basic import getBills, getSimpleContainers
+from algorithms.basic import getBills
 from algorithms.basic import getNumberOfManifests
-from django.contrib.auth.models import User
-from django.contrib.auth import authenticate, login, logout
-from django.http import HttpResponseRedirect, HttpResponse
-import json, math
-from decimal import *
-
-import decimal
-from django.utils import simplejson
+from webint.models import ContainerStatus
 
 
 def json_encode_decimal(obj):
@@ -35,6 +35,16 @@ def index(request):
         return render_to_response('webint/index.html', context_dict, context)
     else:
         return HttpResponseRedirect('/webint/not_logged_in')
+
+def update_status(request, container_id):
+    context = RequestContext(request)
+    if request.method == "POST":
+        status = ContainerStatus.objects.get(container_id=request.POST['container'])
+        status.status = request.POST['new_status']
+        status.save()
+        print "This is update_status"
+        return HttpResponse(status=201)
+    return HttpResponse(status=404)
 
 
 def manifests_no_ajax(request):
@@ -138,6 +148,19 @@ def test_view(request):
 
 def test_ajax(request, pagenumber):
     if request.user.is_authenticated():
+        if request.method == "POST":
+            status = ContainerStatus.objects.get(container_id=request.POST['container'])
+            new_status_param = request.POST.get('new_status')
+            if new_status_param is not None:
+                status.status = request.POST['new_status']
+                print "This is update_status"
+            else:
+                new_assignee = User.objects.get(username=request.POST['new_assignee'])
+                print new_assignee.username
+                status.assignee = new_assignee
+                print "this is update assignee"
+            status.save()
+            return HttpResponse(status=201)
         context = RequestContext(request)
         data = getManifests(int(pagenumber))
         return HttpResponse(json.dumps(data), content_type="application/json")
@@ -211,6 +234,3 @@ def single_manifest_details(request, manifestID):
         return render_to_response('webint/singlemanf.html', context_dict, context)
     else:
         return HttpResponseRedirect('/webint/not_logged_in')
-
-
-

@@ -18,18 +18,6 @@ $( document ).ready(function() {
 
 	});
 
-
-    /* NIE UZYWANE
-	$("#singmanf").keyup(function (e) {
-	    if (e.keyCode == 13) {
-	        // Do something
-	        var myURL = 'http://127.0.0.1:8000/webint/manifestID/'.concat($(this).val());
-	        window.open(myURL,'Singel Manifest');
-	    }
-	});
-
-    */
-
 	$(".linkbutton").click( function() {
 
 		var theURL = "http://127.0.0.1:8000/webint/page/";
