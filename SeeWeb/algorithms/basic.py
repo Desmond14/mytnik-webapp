@@ -188,7 +188,7 @@ def getSimpleContainers():
 def getContainers():
     cnxn = pyodbc.connect('DRIVER={SQL Server};SERVER=localhost;DATABASE=MYTNIK_CUSCAR;UID=mytnik;PWD=mytnik')
     cursor = cnxn.cursor()
-    querry = """select ent.ve_Message.UnbReference,  ent.ve_Container.ContainerIdentifier,  ent.ve_CargoDetails.BillofLading, CEILING (ent.ve_GoodsIdent.GoodsItemNumber) , ent.ve_Container.ContainerType, ent.ve_Container.ContainerStatus ,CEILING( ent.ve_Container.GrossWeightValue), ent.ve_Container.NetWeightValue, CEILING( ent.ve_Container.GrossVolumeValue ), ent.ve_GoodsIdent.PackagesDescType, CEILING ( ent.ve_GoodsIdent.GoodsItemNumber ), ent.ve_GoodsIdentFreeText.FreeTextLine1   from ent.ve_ContainerView
+    querry = """select ent.ve_Message.UnbReference as a,  ent.ve_Container.ContainerIdentifier as b,  ent.ve_CargoDetails.BillofLading as c, CEILING (ent.ve_GoodsIdent.GoodsItemNumber) as d , ent.ve_Container.ContainerType as e, ent.ve_Container.ContainerStatus as f,CEILING( ent.ve_Container.GrossWeightValue) as g, ent.ve_Container.NetWeightValue as h, CEILING( ent.ve_Container.GrossVolumeValue ) as i, ent.ve_GoodsIdent.PackagesDescType as j, CEILING ( ent.ve_GoodsIdent.GoodsItemNumber ) as k, ent.ve_GoodsIdentFreeText.FreeTextLine1 as l from ent.ve_ContainerView
 	inner join ent.ve_Message on ent.ve_ContainerView.MessageId = ent.ve_Message.MessageId
 	inner join ent.ve_CargoDetails on ent.ve_ContainerView.CargoDetailsId = ent.ve_CargoDetails.CargoDetailsId
 	inner join ent.ve_Container on ent.ve_ContainerView.ContainerId =  ent.ve_Container.ContainerId
@@ -197,24 +197,32 @@ def getContainers():
 	ORDER BY ent.ve_Message.UnbReference"""
     cursor.execute(querry)
     rows = cursor.fetchall()
-    return rows
+    res = []
+    for row in rows:
+        t=(row.a, row.b, row.c, str(row.d), row.e, row.f, str(row.g), str(row.h), str(row.i), row.j, str(row.k), row.l)
+        res.append(t);
+    return res
 
 
 def getBills():
     cnxn = pyodbc.connect('DRIVER={SQL Server};SERVER=localhost;DATABASE=MYTNIK_CUSCAR;UID=mytnik;PWD=mytnik')
     cursor = cnxn.cursor()
-    querry = """select UnbReference, BillofLading, OriginPort , LoadingPort , DischargePort from ent.ve_Message
+    querry = """select UnbReference as a, BillofLading as b, OriginPort as c , LoadingPort as d, DischargePort as e from ent.ve_Message
 	inner join ent.ve_CargoDetails on ent.ve_Message.MessageId=ent.ve_CargoDetails.MessageId
 	order by UnbReference"""
     cursor.execute(querry)
     rows = cursor.fetchall()
-    return rows
+    res = []
+    for row in rows:
+        t=(row.a, row.b, row.c, row.d, row.e)
+        res.append(t);
+    return res
 
 
 def getBillsforCont(ContainerId):
     cnxn = pyodbc.connect('DRIVER={SQL Server};SERVER=localhost;DATABASE=MYTNIK_CUSCAR;UID=mytnik;PWD=mytnik')
     cursor = cnxn.cursor()
-    ftmpquerry = """select  a.ContainerIdentifier, b.BillofLading, b.OriginPort , b.LoadingPort , b.DischargePort, c.CityName, c.Country, c.NameAndAddressId from ent.ve_ContainerView
+    ftmpquerry = """select  a.ContainerIdentifier as f, b.BillofLading as g, b.OriginPort as h, b.LoadingPort as i, b.DischargePort as j, c.CityName as k, c.Country as l, c.NameAndAddressId as m from ent.ve_ContainerView
 	inner join  ent.ve_Container as a on ent.ve_ContainerView.ContainerId=a.ContainerId
 	inner join  ent.ve_CargoDetails as b on ent.ve_ContainerView.CargoDetailsId=b.CargoDetailsId
 	inner join  ent.ve_CargoDetailsNameAndAddress as c on b.CargoDetailsId=c.CargoDetailsId
@@ -224,4 +232,8 @@ def getBillsforCont(ContainerId):
     print querry
     cursor.execute(querry)
     rows = cursor.fetchall()
-    return rows
+    res = []
+    for row in rows:
+        t=(row.f, row.g, row.h, row.i, row.j, str(row.k), str(row.l), row.m)
+        res.append(t);
+    return res

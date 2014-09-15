@@ -55,7 +55,7 @@
           		</div>
           		<div class="col-md-11 col-md-offset-1" main>
           			<div class="row table-responsive">
-							<table id="" class="display table table-hover">
+							<table id="manifests" class="display table table-hover">
 								<thead>
 									<tr>
 										<th> UNB Reference </th> <th>Sent date</th><th> ETA </th>
@@ -65,17 +65,8 @@
 										<th> PL Full </th><th> PL Empty </th><th> Transhipment </th>
 									</tr>
 								</thead>
-								<tbody>
-									{% for inner_list in outer_list %}
-										<tr>
-											{% for field in inner_list %}
-												<td> {{ field }} </td>
-											{% endfor %}	
-										</tr>
-									{% endfor %}
-								</tbody>  
 							</table>
-							<table class="table table-hover display" id="">
+							<table  id="containers" class="table table-hover display">
 								<thead>
 									<tr id="Container_table_header" >
 										<th> Id Vessel </th> <th> Container</th><th> Bill of landing </th>
@@ -84,32 +75,14 @@
 										<th> Package </th> <th> Quantity</th><th> Goods description </th>
 									</tr>
 								</thead>
-								<tbody>
-									{% for inner_list in cont_outer_list %}
-										<tr>
-											{% for field in inner_list %}
-												<td> {{ field }} </td>
-											{% endfor %}	
-										</tr>
-									{% endfor %}
-								</tbody>
 							</table>
-							<table class="table table-hover display" id="">
+							<table id="bills" class="table table-hover display">
 								<thead>
 									<tr id="Bill_table_header" >
 										<th> UNB Reference </th> <th> Bill of landing</th>
 										<th> Origin Port </th><th> Loading port </th> <th> Discharge port </th>
 									</tr>
 								</thead>
-								<tbody>
-									{% for inner_list in bills_outer_list %}
-										<tr>
-											{% for field in inner_list %}
-												<td> {{ field }} </td>
-											{% endfor %}	
-										</tr>
-									{% endfor %}
-								</tbody>
 							</table>
           			</div>
           			<hr>
@@ -119,9 +92,11 @@
 
 		<script src="{% static 'js/jquery-2.1.0.min.js' %}"></script> 
 		<script src="{% static 'js/bootstrap.min.js' %}"></script>
-		<script src="{% static 'js/manifest_no_ajax.js' %}"></script>
-		<script type="text/javascript" charset="utf8" src="//cdn.datatables.net/1.10.1/js/jquery.dataTables.js"></script>
+		<script src="{% static 'js/jquery.dataTables.js' %}"></script>
 		<script src="{% static 'js/dataTables.bootstrap.js' %}"></script>
+		<script src="{% static 'js/manifest_no_ajax.js' %}"></script>
+		<script src="{% static 'js/ajax_datatables.js' %}"></script>
+		
     </body>
 
 </html>
