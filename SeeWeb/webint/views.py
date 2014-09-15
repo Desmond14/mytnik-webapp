@@ -11,7 +11,7 @@ from django.utils import simplejson
 
 from algorithms.basic import getManifests, getSingleManifet, getNumberOfContainers, getNumberOfBills, \
     getBills_per_manifest, getManifestsNoAjax, \
-    getContainersWithStatus
+    getContainersWithStatus, getSimpleContainers
 from algorithms.basic import getContainers, getContainers_per_manifest, getBillsforCont
 from algorithms.basic import getBills
 from algorithms.basic import getNumberOfManifests
@@ -82,6 +82,14 @@ def bills_datatables(request):
         items_list_dict.update({'aaData': items_list})
         return HttpResponse(json.dumps(items_list_dict), 'application/json')
 
+def containers_with_status_datatables(request):
+    if request.user.is_authenticated():
+        context = RequestContext(request)
+        items_list = getSimpleContainers()
+        items_list_dict = {}
+        items_list_dict.update({'aaData': items_list})
+        return HttpResponse(json.dumps(items_list_dict), 'application/json')
+
 def bills_per_cont_datatables(request, containerID):
     if request.user.is_authenticated():
         context = RequestContext(request)
@@ -93,9 +101,9 @@ def bills_per_cont_datatables(request, containerID):
 def containers_view(request):
     if request.user.is_authenticated():
         context = RequestContext(request)
-        containers_list = getContainersWithStatus()
+        #containers_list = getContainersWithStatus()
         usernames = User.objects.all().values_list('username', flat=True)
-        context_dict = {'cont_list': containers_list, 'users': usernames}
+        context_dict = {'users': usernames}
         return render_to_response('webint/containers.html', context_dict, context)
     else:
         return HttpResponseRedirect('/webint/not_logged_in')

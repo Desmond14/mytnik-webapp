@@ -163,14 +163,9 @@ def getContainersWithStatus():
             status = ContainerStatus(container_id=container_id)
             print "Created Status for container " + container_id
             status.save()
-        if status.assignee is not None:
-            username = status.assignee.username
-            print username, container_id
-        else:
-            username = ""
         resulting_container = (
-            container.UnbReference, container.ContainerIdentifier, container.ContainerType, container.ContainerLoad,
-            status.status, username)
+            str(container.UnbReference), str(container.ContainerIdentifier), str(container.ContainerType), str(container.ContainerLoad),
+            str(status.status), str(status.assignee))
         containers_with_status.append(resulting_container)
     return containers_with_status
 
@@ -178,11 +173,15 @@ def getContainersWithStatus():
 def getSimpleContainers():
     cnxn = pyodbc.connect('DRIVER={SQL Server};SERVER=localhost;DATABASE=MYTNIK_CUSCAR;UID=mytnik;PWD=mytnik')
     cursor = cnxn.cursor()
-    querry = """select UnbReference,ContainerIdentifier ,ContainerType, ContainerLoad from ent.ve_Message inner join ent.ve_Container on ve_Message.MessageId = ve_Container.ManifestId"""
+    querry = """select UnbReference as a,ContainerIdentifier as b,ContainerType as c, ContainerLoad as d from ent.ve_Message inner join ent.ve_Container on ve_Message.MessageId = ve_Container.ManifestId"""
     cursor.execute(querry)
     rows = cursor.fetchall()
+    res = []
+    for row in rows:
+        t=(row.a, row.b, row.c, row.d)
+        res.append(t);
     print len(rows)
-    return rows
+    return res
 
 
 def getContainers():

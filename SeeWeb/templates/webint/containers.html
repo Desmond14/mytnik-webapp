@@ -60,60 +60,15 @@
         </div>
         <div class="col-md-11 col-md-offset-1" main>
             <div class="row table-responsive">
-                <table id="table_id" class="display table table-hover">
+                <table id="containersWithStatus" class="display table table-hover">
                     <thead>
                     <tr>
                         <th>Unb Reference</th>
                         <th>Container Identifier</th>
                         <th>Container Type</th>
                         <th>Container Load</th>
-                        <th>Status</th>
-                        <th>Assignee</th>
                     </tr>
                     </thead>
-                    <tbody>
-                    {% for container in cont_list %}
-                        <tr class="single_row">
-                            <td>{{ container.0 }}</td>
-                            <td>{{ container.1 }}</td>
-                            <td>{{ container.2 }}</td>
-                            <td>{{ container.3 }}</td>
-                            <td>
-                                <select onchange="sendRequest(this)">
-                                    {% if container.4 == "NA" %}
-                                        <option value="NA"></option>
-                                        <option value="IP">In progress</option>
-                                        <option value="DO">Done</option>
-                                    {% elif container.4 == "IP" %}
-                                        <option value="NA"></option>
-                                        <option value="IP" selected>In progress</option>
-                                        <option value="DO">Done</option>
-                                    {% else %}
-                                        <option value="NA"></option>
-                                        <option value="IP">In progress</option>
-                                        <option value="DO" selected>Done</option>
-                                    {% endif %}
-                                </select>
-                            </td>
-                            <td>
-                                <select onchange="updateAssignee(this)">
-                                    <option value="NA"></option>
-                                    {% for user in users %}
-                                        {% if container.5  == user  %}
-                                            <option value="{{ user }}" selected>{{ user }}</option>
-                                        {% else %}
-                                            <option value="{{ user }}">{{ user }}</option>
-                                        {% endif %}
-                                    {% endfor %}
-                                </select>
-                            </td>
-
-                            {% comment %}{% for field in inner_list %}
-												<td> {{ field }} </td>
-											{% endfor %}{% endcomment %}
-                        </tr>
-                    {% endfor %}
-                    </tbody>
                 </table>
             </div>
             <hr>
@@ -126,6 +81,7 @@
 <script src="{% static 'js/jquery.dataTables.js' %}"></script>
 <script src="{% static 'js/containers.js' %}"></script>
 <script src="{% static 'js/dataTables.bootstrap.js' %}"></script>
+<script src="{% static 'js/ajax_datatables.js' %}"></script>
 {#<script src="//cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>#}
 <script>
     function sendRequest(select) {
