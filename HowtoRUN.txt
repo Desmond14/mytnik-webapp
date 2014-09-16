@@ -1,10 +1,10 @@
-Nie które polecenia wymagaja praw admina wiec odpalamy powershella z prawami admina 
+Niektóre polecenia wymagaja praw admina, wiêc w celu ich wykonania nale¿y uruchomiæ powershella z prawami admina.
 
 1. Instalacja Python
 	https://www.python.org/ftp/python/2.7.6/python-2.7.6.amd64.msi  
-	Sciagamy i instaluejmy w defaultowym katologu czyli C:\Python27
-2. Dodanie python do classpatha , wykonujemy ponizsze instrukcje
-		Upon the completion of the installation, open a Command Prompt and enter the command python. If you see the Python prompt, installation was successful.
+	Œci¹gamy i instaluejmy w defaultowym katologu czyli C:\Python27
+2. Dodanie Pythona do classpatha. Nale¿y wykonaæ instrukcje:
+		"Upon the completion of the installation, open a Command Prompt and enter the command python. If you see the Python prompt, installation was successful.
 		However, in certain circumstances, the installer may not set your Windows installation’s PATH environment variable correctly. This will result in the python command not being found. Under Windows 7, you can rectify this by performing the following:
 				a)Click the Start button, right click My Computer and select Properties.
 				b) Click the Advanced tab.
@@ -12,21 +12,18 @@ Nie które polecenia wymagaja praw admina wiec odpalamy powershella z prawami adm
 				d) In the System variables list, find the variable called Path, click it, then click the Edit button.
 				e) At the end of the line, enter ;C:\python27;C:\python27\scripts. Don’t forget the semicolon - and certainly do not add a space.
 				f) Click OK to save your changes in each window.
-				g) Close any Command Prompt instances, open a new instance, and try run the python command again.
+				g) Close any Command Prompt instances, open a new instance, and try run the python command again."
 3. Setting Up the PYTHONPATH
 	 Add a PYTHONPATH variable with the value being set to your site-packages folder, which is typically C:\Python27\Lib\site-packages\. Podobnie jak w punkcie 2 , 
 	 ale tym razem nie edytujemy zmiennej srodowiskowej a dodajemy nowa zmienna srodowiskowa  PYTHONPATH
-
-
 4. Using Setuptools and Pip
-		Sciagamy Setuptools z tej strony https://pypi.python.org/pypi/setuptools/1.1.6#windows czyli sciagamy konkretnie ten skrypt :
+		Œci¹gamy Setuptools z tej strony https://pypi.python.org/pypi/setuptools/1.1.6#windows czyli sci¹gamy konkretnie ten skrypt:
 			https://bitbucket.org/pypa/setuptools/raw/bootstrap/ez_setup.py i go odpalamy poleceniem "python ez_setup.py"
-		Jesli wszystko jest okej to zobaczymy mniej wiecej to :
-			Finished processing dependencies for setuptools==1.1.6
-		
+		Jesli wszystko jest okej to zobaczymy mniej wiêcej to :
+			Finished processing dependencies for setuptools==1.1.6	
 		Teraz sciagamy pip
 			easy_install pip
-		Jesli wszystko jest okej to zobaczymy mniej wiecej to :
+		Jesli wszystko jest okej to zobaczymy mniej wiêcej to :
 			Finished processing dependencies for pip
 		
 5. Instalacja django
@@ -38,16 +35,22 @@ Nie które polecenia wymagaja praw admina wiec odpalamy powershella z prawami adm
 7. Instalacja django-pyodbc
 		pip install django-pyodbc
 		
-I to powinno byæ wyszystko
-
-Uwaga logowanie do bazy odpuwa sie poprzez uzytkownika ( tego domyslnego co by podany w mailu, mam nadzieje za pamietacie, maly hint m***** od hasle m***  , wiec w bazie trzbea miec go utworzonego !
+I to powinno byæ wyszystko przy za³o¿eniu, ¿e u¿ytkownik ma zainstalowan¹ bazê MSSQL Mytnik-Cuscar. 
+Uwaga! W tej wersji projektu za³o¿one jest, ¿e logowanie do bazy Mytnik-Cuscar odbywa siê przez u¿ytkownika "mytnik" z has³em "mytnik" - wartoœci te s¹ na tê chwilê zakodowane w plikach Ÿród³owych.
 9. Jak odpaliæ serwer 
-         wchodizmy do naszego Katalogu SeeWeb   ( w tym katalogu powinny byc kilka katalogow miedzy innymi kolejny katalog SeeWeb oraz katalog webint oraz plik manage.py _
-		 cd ......(Wasza scie¿ka do) .../SeeWeb
-		 w tym katalogu odpalamy nastepujaca komende
+         Wchodzimy w projekcie do katalogu SeeWeb (w tym katalogu powinny byc kilka katalogow miedzy innymi kolejny katalog SeeWeb oraz katalog webint oraz plik manage.py):
+		 cd SeeWeb
+		 Przed pierwszym uruchomieniem serwera (i tylko wtedy) nale¿y odpaliæ komendê: "python manage.py syncdb"
+		 Komenda ta utworzy dodatkow¹ bazê danych, w której przechowywane s¹ informacje zapisywane przez aplikacjê mytnik-webapp.
+		 Po odpaleniu tej komendy zostaniemy zapytani, czy chcemy utworzyæ superusera. Nale¿y odpowiedzieæ tak i wprowadziæ jego nazwê i has³o.
+		 
+		 W tym samym katalogu co wczeœniej odpalamy nastepujaca komendê: 
 		 "python manage.py runserver"
-		 wchodzimy na stroneke http://127.0.0.1:8000/webint/
-		 Enjoy !
+		 Po chwili aplikacja powinna byæ dostêpna pod adresem: http://127.0.0.1:8000/webint/ - mo¿na siê zalogowaæ przez dane podane przy tworzeniu superusera.
+		 Uwaga! Pierwsze wejœcie do zak³adki "containers" mo¿e ³adowaæ siê znacznie d³u¿ej ni¿ kolejne ze wzglêdu na synchronizacjê bazy utworzonej na potrzeby projektu z baz¹ MS SQL - dla ka¿dego kontenera zapisany zostaje domyœlny status i osoba przypisana.
+		 U¿ytkownik mo¿e utworzyæ dodatkowych u¿ytkowników w aplikacji loguj¹c siê do panelu admina dostêpnym pod adresem: http://127.0.0.1:8000/admin/
+		  
+		 
 			
 
 		

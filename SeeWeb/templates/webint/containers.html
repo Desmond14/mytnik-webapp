@@ -232,6 +232,8 @@
         console.log(new_assignee);
         if (new_assignee == "") {
             $(select).attr("data-old", "None");
+        } else {
+            $(select).attr("data-old", new_assignee);
         }
         var row = $(select).parent().parent();
         var container_id = $(row).children('td').eq(1).text();
