@@ -156,7 +156,7 @@ def getContainersWithStatus():
     simple_containers = getSimpleContainers()
     containers_with_status = []
     for container in simple_containers:
-        container_id = container.ContainerIdentifier
+        container_id = container.b
         try:
             status = ContainerStatus.objects.get(container_id=container_id)
         except ContainerStatus.DoesNotExist:
@@ -164,7 +164,7 @@ def getContainersWithStatus():
             print "Created Status for container " + container_id
             status.save()
         resulting_container = (
-            str(container.UnbReference), str(container.ContainerIdentifier), str(container.ContainerType), str(container.ContainerLoad),
+            str(container.a), str(container.b), str(container.c), str(container.d),
             str(status.status), str(status.assignee))
         containers_with_status.append(resulting_container)
     return containers_with_status
@@ -176,13 +176,13 @@ def getSimpleContainers():
     querry = """select UnbReference as a,ContainerIdentifier as b,ContainerType as c, ContainerLoad as d from ent.ve_Message inner join ent.ve_Container on ve_Message.MessageId = ve_Container.ManifestId"""
     cursor.execute(querry)
     rows = cursor.fetchall()
-    res = []
-    for row in rows:
-        t=(row.a, row.b, row.c, row.d)
-        res.append(t);
-    print len(rows)
-    return res
-
+    # res = []
+    # for row in rows:
+    #     t=(row.a, row.b, row.c, row.d)
+    #     res.append(t);
+    # print len(rows)
+    # return res
+    return rows
 
 def getContainers():
     cnxn = pyodbc.connect('DRIVER={SQL Server};SERVER=localhost;DATABASE=MYTNIK_CUSCAR;UID=mytnik;PWD=mytnik')

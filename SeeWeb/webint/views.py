@@ -85,7 +85,7 @@ def bills_datatables(request):
 def containers_with_status_datatables(request):
     if request.user.is_authenticated():
         context = RequestContext(request)
-        items_list = getSimpleContainers()
+        items_list = getContainersWithStatus()
         items_list_dict = {}
         items_list_dict.update({'aaData': items_list})
         return HttpResponse(json.dumps(items_list_dict), 'application/json')
@@ -103,7 +103,7 @@ def containers_view(request):
         context = RequestContext(request)
         #containers_list = getContainersWithStatus()
         usernames = User.objects.all().values_list('username', flat=True)
-        context_dict = {'users': usernames}
+        context_dict = {'users': list(usernames)}
         return render_to_response('webint/containers.html', context_dict, context)
     else:
         return HttpResponseRedirect('/webint/not_logged_in')
