@@ -36,28 +36,37 @@ def index(request):
     else:
         return HttpResponseRedirect('/webint/not_logged_in')
 
-def update_status(request, container_id):
+
+def update_status(request):
     context = RequestContext(request)
     if request.method == "POST":
         status = ContainerStatus.objects.get(container_id=request.POST['container'])
-        status.status = request.POST['new_status']
+        new_status_param = request.POST.get('new_status')
+        if new_status_param is not None:
+            status.status = request.POST['new_status']
+            print "This is update_status"
+        else:
+            new_assignee = User.objects.get(username=request.POST['new_assignee'])
+            print new_assignee.username
+            status.assignee = new_assignee
+            print "this is update assignee"
         status.save()
-        print "This is update_status"
-        return HttpResponse(status=201)
+        return HttpResponse(json.dumps(status.status), 'application/json')
     return HttpResponse(status=404)
 
 
 def manifests_no_ajax(request):
     if request.user.is_authenticated():
         context = RequestContext(request)
-        #manif_list = getManifestsNoAjax()
+        # manif_list = getManifestsNoAjax()
         #conta_list = getContainers()
         #bills_list = getBills()
         context_dict = {}
         return render_to_response('webint/manifest_no_ajax.html', context_dict, context)
     else:
         return HttpResponseRedirect('/webint/not_logged_in')
-    
+
+
 def manifests_datatables(request):
     if request.user.is_authenticated():
         context = RequestContext(request)
@@ -65,7 +74,8 @@ def manifests_datatables(request):
         items_list_dict = {}
         items_list_dict.update({'aaData': items_list})
         return HttpResponse(json.dumps(items_list_dict), 'application/json')
-    
+
+
 def containers_datatables(request):
     if request.user.is_authenticated():
         context = RequestContext(request)
@@ -73,6 +83,7 @@ def containers_datatables(request):
         items_list_dict = {}
         items_list_dict.update({'aaData': items_list})
         return HttpResponse(json.dumps(items_list_dict), 'application/json')
+
 
 def bills_datatables(request):
     if request.user.is_authenticated():
@@ -82,6 +93,7 @@ def bills_datatables(request):
         items_list_dict.update({'aaData': items_list})
         return HttpResponse(json.dumps(items_list_dict), 'application/json')
 
+
 def containers_with_status_datatables(request):
     if request.user.is_authenticated():
         context = RequestContext(request)
@@ -89,6 +101,7 @@ def containers_with_status_datatables(request):
         items_list_dict = {}
         items_list_dict.update({'aaData': items_list})
         return HttpResponse(json.dumps(items_list_dict), 'application/json')
+
 
 def bills_per_cont_datatables(request, containerID):
     if request.user.is_authenticated():
@@ -98,10 +111,11 @@ def bills_per_cont_datatables(request, containerID):
         items_list_dict.update({'aaData': items_list})
         return HttpResponse(json.dumps(items_list_dict), 'application/json')
 
+
 def containers_view(request):
     if request.user.is_authenticated():
         context = RequestContext(request)
-        #containers_list = getContainersWithStatus()
+        # containers_list = getContainersWithStatus()
         usernames = User.objects.all().values_list('username', flat=True)
         context_dict = {'users': list(usernames)}
         return render_to_response('webint/containers.html', context_dict, context)
@@ -112,7 +126,7 @@ def containers_view(request):
 def bills_view(request):
     if request.user.is_authenticated():
         context = RequestContext(request)
-        #bill_list = getBills()
+        # bill_list = getBills()
         context_dict = {}
         return render_to_response('webint/bills.html', context_dict, context)
     else:

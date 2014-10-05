@@ -162,6 +162,9 @@ function saveContainerStatus($row) {
     var currentlySelectedStatus = $statusSelect.find("option:selected").text();
     if (oldStatusValue != currentlySelectedStatus) {
         console.log('Sending request');
+        var containerId = $row.children('td').eq(1).text();
+        console.log(containerId);
+        sendContainerStatusUpdateRequest(valuesToShortcuts[currentlySelectedStatus], containerId)
     } else {
         console.log("Nothing changed");
     }
@@ -172,11 +175,14 @@ function saveAssignee($row) {
     var $assigneeCell = $row.children("td").eq(5);
     var $assigneeSelect = $assigneeCell.find(">:first-child");
 
-    var old_value = $assigneeSelect.attr("data-old");
+    var oldValue = $assigneeSelect.attr("data-old");
     var selected = $assigneeSelect.find("option:selected").text();
 
-    if (old_value != selected) {
+    if (oldValue != selected) {
         console.log('sending request');
+        var containerId = $row.children('td').eq(1).text();
+        console.log(containerId);
+        sendAssigneeUpdateRequest(selected, containerId);
     } else {
         console.log("Nothing changed");
     }
@@ -195,4 +201,39 @@ function cancelChanges($row) {
     var $assigneeCell = $row.children("td").eq(5);
     var $assigneeSelect = $assigneeCell.find(">:first-child");
     $assigneeCell.html($assigneeSelect.attr("data-old"));
+}
+
+function sendContainerStatusUpdateRequest(selectedStatus, containerId) {
+    var theURL = "http://127.0.0.1:8000/webint/containers/status/";
+
+    $.ajax({
+        url: theURL,
+        data: {
+            container: containerId,
+            new_status: selectedStatus,
+            csrfmiddlewaretoken: $.cookie('csrftoken')
+        },
+        dataType: "json",
+        type: "POST",
+        success: function () {
+            console.log("success");
+        }
+    });
+}
+
+function sendAssigneeUpdateRequest(selectedAssignee, containerId) {
+    var theURL = "http://127.0.0.1:8000/webint/page/0/";
+    $.ajax({
+        url: theURL,
+        data: {
+            container: containerId,
+            new_assignee: selectedAssignee,
+            csrfmiddlewaretoken: $.cookie('csrftoken')
+        },
+        dataType: "json",
+        type: "POST",
+        success: function () {
+            console.log("success");
+        }
+    });
 }
