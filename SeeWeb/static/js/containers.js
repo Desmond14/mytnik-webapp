@@ -1,5 +1,5 @@
 $(document).ready(function () {
-    $('#containersWithStatus').DataTable({
+    var table = $('#containersWithStatus').DataTable({
         "ajax": "http://127.0.0.1:8000/webint/containers_with_status_datatables",
         "deferRender": true,
         "fnCreatedRow": function (row, aData, iDataIndex) {
@@ -7,12 +7,26 @@ $(document).ready(function () {
                     var container_id = $(this).children().eq(1).text();
                     console.log(container_id);
                     var myURL = 'http://127.0.0.1:8000/webint/bills_per_cont/'.concat(container_id);
-                    //window.open(myURL,unbref);
                     window.open(myURL);
             });
             appendCellsWithButtons($(row));
         }
     });
+
+    // Apply the search
+    table.columns().eq( 0 ).each( function ( colIdx ) {
+        $( 'input', table.column( colIdx ).footer() ).on( 'keyup change', function () {
+            table
+                .column( colIdx )
+                .search( this.value )
+                .draw();
+        } );
+    } );
+
+    //TODO To jest jeszcze do zrobienia
+	/*$(':checkbox').click(function() {
+		table.column( 4 ).search( 'NA' ).draw();
+	});*/
 });
 
 function appendCellsWithButtons($row) {
