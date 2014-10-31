@@ -14,6 +14,8 @@
     <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
     <link href="{% static 'css/dashboard.css' %}" rel="stylesheet">
     <link href="{% static 'css/dataTables.bootstrap.css' %}" rel="stylesheet">
+    <link href="{% static 'css/jquery-ui.css' %}" rel="stylesheet">
+    <link href="{% static 'css/theme.css' %}" rel="stylesheet">
 </head>
 
 <body>
@@ -71,26 +73,68 @@
                         <th>Assignee</th>
                     </tr>
                     </thead>
+                    
+                    <tfoot>
+		            <tr>
+		                <th>Unb Reference</th>
+                        <th>Container Identifier</th>
+                        <th>Container Type</th>
+                        <th>Container Load</th>
+                        <th>Status</th>
+                        <th>Assignee</th>
+		            </tr>
+		        	</tfoot>
                 </table>
             </div>
             <hr>
         </div>
     </div>
 </div>
+
+
+
+<div style="display: none;" id="dialog" title="Filter Status">
+  <input type="checkbox" name="None" checked="checked" /> NA
+  <input type="checkbox" name="InProgress" checked="checked" /> IP
+  <input type="checkbox" name="Done" checked="checked" /> DO
+</div>
+
 <div id="usernames" data="{{ users }}"></div>
 
 <script src="{% static 'js/jquery-2.1.0.min.js' %}"></script>
+<script src="{% static 'js/jquery-ui.js' %}"></script>
 <script src="{% static 'js/bootstrap.min.js' %}"></script>
 <script src="{% static 'js/jquery.dataTables.js' %}"></script>
+<script src="{% static 'js/jquery.dataTables.columnFilter.js' %}"></script>
 <script src="{% static 'js/containers.js' %}"></script>
 <script src="{% static 'js/dataTables.bootstrap.js' %}"></script>
 <script src="{% static 'js/ajax_datatables.js' %}"></script>
 {#<script src="//cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>#}
 <script>
     $(window).load(function () {
+    	$(".table-responsive").after("<button id='opener' style='margin-left: 5px'>Filters</button>");
         $(".table-responsive").after("<button id='cancel' onclick='cancelChanges()'>Cancel changes</button>");
         $(".table-responsive").after("<button id='save' onclick='saveChanges()'>Save changes</button>");
         $(".table-responsive").after("<button id='edit' onclick='turnEditMode()'>Edit</button>");
+        
+    	$(function() {
+		    $( "#dialog" ).dialog({
+		      autoOpen: false,
+		      position: { my: "left top", at: "left+55 top", of: "#opener" },
+		      show: {
+		        effect: "blind",
+		        duration: 1000
+		      },
+		      hide: {
+		        effect: "explode",
+		        duration: 1000
+		      }
+		    });
+		 
+		    $( "#opener" ).click(function() {
+		      $( "#dialog" ).dialog( "open" );
+		    });
+  		});
     });
 
     function turnEditMode() {
