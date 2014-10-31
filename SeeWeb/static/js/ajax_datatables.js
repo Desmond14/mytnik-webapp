@@ -25,32 +25,4 @@ $(document).ready(function() {
 		"ajax" : url4,
 		"deferRender": true
 	});
-	
-	// Setup - add a text input to each footer cell
-    $('#containersWithStatus tfoot th').each( function () {
-        var title = $('#containersWithStatus thead th').eq( $(this).index() ).text();
-        $(this).html( '<input width="200px" type="text" placeholder="Search '+title+'" />' );
-    } );
-	
-	var table = $('#containersWithStatus').DataTable({
-		"ajax" : url5,
-		"deferRender": true
-	});
-	
-	// Apply the search
-    table.columns().eq( 0 ).each( function ( colIdx ) {
-        $( 'input', table.column( colIdx ).footer() ).on( 'keyup change', function () {
-            table
-                .column( colIdx )
-                .search( this.value )
-                .draw();
-        } );
-    } );
-    
-    //TODO To jest jeszcze do zrobienia
-	/*$(':checkbox').click(function() {
-		table.column( 4 ).search( 'NA' ).draw();
-	});*/
-    
-
 });
