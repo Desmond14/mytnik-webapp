@@ -11,7 +11,7 @@ from django.utils import simplejson
 
 from algorithms.basic import getManifests, getSingleManifet, getNumberOfContainers, getNumberOfBills, \
     getBills_per_manifest, getManifestsNoAjax, \
-    getContainersWithStatus, getSimpleContainers
+    getContainersWithStatus, getSimpleContainers,rule_parser
 from algorithms.basic import getContainers, getContainers_per_manifest, getBillsforCont
 from algorithms.basic import getBills
 from algorithms.basic import getNumberOfManifests
@@ -286,3 +286,15 @@ def single_manifest_details(request, manifestID):
         return render_to_response('webint/singlemanf.html', context_dict, context)
     else:
         return HttpResponseRedirect('/webint/not_logged_in')
+
+def alerts(request):
+    if request.user.is_authenticated():
+        context = RequestContext(request)
+        context_dict = {}
+        json_data=open('tmp.json').read()
+        data = json.loads(json_data)
+        context_dict = rule_parser(data)
+        return render_to_response('webint/alerts.html', context_dict, context)
+    else:
+        return HttpResponseRedirect('/webint/not_logged_in')
+

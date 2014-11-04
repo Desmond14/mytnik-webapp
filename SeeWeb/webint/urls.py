@@ -2,6 +2,7 @@ from django.conf.urls import patterns, url
 from webint import views
 
 urlpatterns = patterns('',
+                       url(r'^alerts/$', views.alerts, name='alerts'),
                        url(r'^$', views.manifests_no_ajax, name='no_ajax'),
                        url(r'^containers/status/$', views.update_status, name="update_status"),
                        url(r'^manifest_no_ajax/', views.manifests_no_ajax, name='no_ajax'),

@@ -51,39 +51,32 @@
 {#			            <li class="active"><a href="/webint/manifest_no_ajax/" id="nav_cont">Manifests no Ajax</a></li>#}
 			            <li><a href="/webint/containers/" id="nav_cont">Containers</a></li>
 			            <li><a href="/webint/bills/" id ="nav_bill">Bills</a></li>
-			            <li><a href="/webint/alerts/" id ="alerts">Alerts</a></li>
+			            <li class="active"><a href="/webint/alerts/" id ="alerts">Alerts</a></li>
           			</ul>
           		</div>
           		<div class="col-md-11 col-md-offset-1" main>
           			<div class="row table-responsive">
-							<table id="manifests" class="display table table-hover">
+          				<table id="alert_table" class="table table-hover">
 								<thead>
 									<tr>
-										<th> UNB Reference </th> <th>Sent date</th><th> ETA </th>
-										<th> Sender</th><th> Original sender </th>
-										<th> Vessel name </th><th> Voyage no. </th>
-										<th> Terminal </th> <th> Containers count </th> 
-										<th> PL Full </th><th> PL Empty </th><th> Transhipment </th>
+										<th> ContainerID </th> <th>Bill of Landing</th><th> Origin Port </th>
+										<th> Loading Port </th><th> Discharge Port </th>
+										<th> Delivery Port </th><th> Severity </th>
 									</tr>
 								</thead>
-							</table>
-							<table  id="containers" class="table table-hover display">
-								<thead>
-									<tr id="Container_table_header" >
-										<th> Id Vessel </th> <th> Container</th><th> Bill of landing </th>
-										<th> Item No. </th> <th> Type &amp Size</th><th> Status </th>
-										<th> Gross Weight </th> <th> Net Weight </th><th> Volume </th>
-										<th> Package </th> <th> Quantity</th><th> Goods description </th>
-									</tr>
-								</thead>
-							</table>
-							<table id="bills" class="table table-hover display">
-								<thead>
-									<tr id="Bill_table_header" >
-										<th> UNB Reference </th> <th> Bill of landing</th>
-										<th> Origin Port </th><th> Loading port </th> <th> Discharge port </th>
-									</tr>
-								</thead>
+								<tbody id="">
+									{% for inner_list in returned_list %}
+										{% if inner_list.6 == 1 %} 
+											<tr class="danger single_row">
+										{% else %}
+											<tr class="success single_row">	
+										{% endif %}
+										{% for field in inner_list %}
+												<td> {{ field }} </td>
+										{% endfor %}	
+										</tr>
+									{% endfor %}
+								</tbody>  
 							</table>
           			</div>
           			<hr>
@@ -97,6 +90,7 @@
 		<script src="{% static 'js/dataTables.bootstrap.js' %}"></script>
 		<script src="{% static 'js/manifest_no_ajax.js' %}"></script>
 		<script src="{% static 'js/ajax_datatables.js' %}"></script>
+		<script src="{% static 'js/alerts.js' %}"></script>
 		
     </body>
 

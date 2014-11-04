@@ -236,3 +236,46 @@ def getBillsforCont(ContainerId):
         t=(row.f, row.g, row.h, row.i, row.j, str(row.k), str(row.l), row.m)
         res.append(t);
     return res
+
+def rule_parser(dict_to_parse):
+    parsed_dict ={}
+    res = []    
+    cnxn = pyodbc.connect('DRIVER={SQL Server};SERVER=localhost;DATABASE=MYTNIK_CUSCAR;UID=mytnik;PWD=mytnik')
+    cursor = cnxn.cursor()
+    basequerry = """select * from ent.ve_ContainerView as maintable
+    inner join  ent.ve_CargoDetails  on ent.ve_CargoDetails.CargoDetailsId=maintable.CargoDetailsId
+    inner join  ent.ve_Message  on  ent.ve_Message.MessageId=maintable.MessageId
+    inner join  ent.ve_Container   on ent.ve_Container.ContainerId=maintable.ContainerId
+    inner join  ent.ve_GoodsIdent   on ent.ve_GoodsIdent.GoodsIdentId=maintable.GoodsIdentId
+    where """
+    for rule, rule_dict in dict_to_parse.iteritems():
+        tmpquerry = basequerry
+        if rule_dict['filter_type'] == 'AND':
+            for column_filter, value in rule_dict['filters'].iteritems():
+                tmpquerry = tmpquerry + str(column_filter) + " like " + " '" + str(value) + "' " + " and "
+            # removing last and
+            tmpquerry = tmpquerry[:-4]
+            cursor.execute(tmpquerry)
+            rows = cursor.fetchall()
+            for row in rows:
+                t=(row[1],row[6],row[7],row[8],row[9],row[10],rule_dict['severity'])
+                res.append(t);
+        if rule_dict['filter_type'] == 'OR':
+            for column_filter, value in rule_dict['filters'].iteritems():
+                tmpquerry = tmpquerry + str(column_filter) + " like " + " '" + str(value) + "' " + " or "
+            # removing last or
+            tmpquerry = tmpquerry[:-4]
+            cursor.execute(tmpquerry)
+            rows = cursor.fetchall()
+            for row in rows:
+                t=(row[1],row[6],row[7],row[8],row[9],row[10],rule_dict['severity'])
+                res.append(t);
+        #print rule_dict['severity']
+        #print rule_dict['filter_type']
+        #print rule_dict['filters']
+    parsed_dict['returned_list'] = res
+    return parsed_dict
+
+
+
+
