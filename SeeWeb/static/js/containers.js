@@ -1,4 +1,10 @@
 $(document).ready(function () {
+	
+	/*$('#containersWithStatus tfoot th').each( function () {
+        var title = $('#containersWithStatus thead th').eq( $(this).index() ).text();
+        $(this).html( '<input width="200px" type="text" placeholder="Search '+title+'" />' );
+    } );*/
+	
     var table = $('#containersWithStatus').DataTable({
         "ajax": "http://127.0.0.1:8000/webint/containers_with_status_datatables",
         "deferRender": true,
@@ -23,10 +29,82 @@ $(document).ready(function () {
         } );
     } );
 
-    //TODO To jest jeszcze do zrobienia
-	/*$(':checkbox').click(function() {
-		table.column( 4 ).search( 'NA' ).draw();
-	});*/
+    // Filtering statuses
+	$("input[name='None']").change(function() {
+		if(this.checked) {
+			if($("input[name='InProgress']").prop('checked') == true && $("input[name='Done']").prop('checked') == true) {
+				table.column(4).search(' ').draw();
+			} else if($("input[name='InProgress']").prop('checked') == true) {
+				table.column(4).search('NA|IP', true).draw();
+			} else if($("input[name='Done']").prop('checked') == true) {
+				table.column(4).search('NA|DO', true).draw();
+			} else {
+				table.column(4).search('NA').draw();
+			}
+		} else {
+			if($("input[name='InProgress']").prop('checked') == true && $("input[name='Done']").prop('checked') == true) {
+				table.column(4).search('IP|DO', true).draw();
+			} else if($("input[name='InProgress']").prop('checked') == true) {
+				table.column(4).search( 'IP' ).draw();
+			} else if($("input[name='Done']").prop('checked') == true){
+				table.column(4).search( 'DO' ).draw();
+			} else {
+				table.column(4).search('$^', true).draw();
+			}
+			
+		}
+	});
+	
+	$("input[name='InProgress']").change(function() {
+		if(this.checked) {
+			if($("input[name='None']").prop('checked') == true && $("input[name='Done']").prop('checked') == true) {
+				table.column(4).search(' ').draw();
+			} else if($("input[name='None']").prop('checked') == true) {
+				table.column(4).search('IP|NA', true).draw();
+			} else if($("input[name='Done']").prop('checked') == true) {
+				table.column(4).search('IP|DO', true).draw();
+			} else {
+				table.column(4).search('IP').draw();
+			}
+		} else {
+			if($("input[name='None']").prop('checked') == true && $("input[name='Done']").prop('checked') == true) {
+				table.column(4).search('NA|DO', true).draw();
+			} else if($("input[name='None']").prop('checked') == true) {
+				table.column(4).search( 'NA' ).draw();
+			} else if($("input[name='Done']").prop('checked') == true){
+				table.column(4).search( 'DO' ).draw();
+			} else {
+				table.column(4).search('$^',true).draw();
+			}
+			
+		}
+	});
+	
+	$("input[name='Done']").change(function() {
+		if(this.checked) {
+			if($("input[name='None']").prop('checked') == true && $("input[name='InProgress']").prop('checked') == true) {
+				table.column(4).search(' ').draw();
+			} else if($("input[name='None']").prop('checked') == true) {
+				table.column(4).search('DO|NA', true).draw();
+			} else if($("input[name='InProgress']").prop('checked') == true) {
+				table.column(4).search('DO|IP', true).draw();
+			} else {
+				table.column(4).search('DO').draw();
+			}
+		} else {
+			if($("input[name='None']").prop('checked') == true && $("input[name='InProgress']").prop('checked') == true) {
+				table.column(4).search('NA|IP', true).draw();
+			} else if($("input[name='None']").prop('checked') == true) {
+				table.column(4).search( 'NA' ).draw();
+			} else if($("input[name='InProgress']").prop('checked') == true){
+				table.column(4).search( 'IP' ).draw();
+			} else {
+				table.column(4).search('$^', true).draw();
+			}
+			
+		}
+	});
+	
 });
 
 function appendCellsWithButtons($row) {
