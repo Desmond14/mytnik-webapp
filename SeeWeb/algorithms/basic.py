@@ -2,7 +2,7 @@ import pyodbc
 from webint.models import ContainerStatus
 
 
-def getManifestsNoAjax():
+def get_manifests():
     cnxn = pyodbc.connect(
         'DRIVER={SQL Server};SERVER=localhost;DATABASE=MYTNIK_CUSCAR;UID=mytnik;PWD=mytnik;CHARSET=UTF8;unicode_results=False')
     cursor = cnxn.cursor()
@@ -44,62 +44,8 @@ from ( select ROW_NUMBER() OVER (ORDER BY ent.ve_Message.UnbReference ) as ROW ,
     return rowarray_list
 
 
-def get_bills_per_manifest(pagenum, manf_id):
-    cnxn = pyodbc.connect(
-        'DRIVER={SQL Server};SERVER=localhost;DATABASE=MYTNIK_CUSCAR;UID=mytnik;PWD=mytnik;CHARSET=UTF8;unicode_results=False')
-    cursor = cnxn.cursor()
-    ftmpquerry = """
-				select newtable.UnbReference , newtable.BillofLading, newtable.OriginPort , newtable.LoadingPort , newtable.DischargePort
-				from ( SELECT ROW_NUMBER() OVER (ORDER BY ent.ve_Message.UnbReference ) as ROW,ent.ve_Message.MessageId ,ent.ve_Message.UnbReference , BillofLading, OriginPort , LoadingPort , DischargePort
-				from  ent.ve_Message  INNER JOIN ent.ve_CargoDetails on ent.ve_Message.MessageId=ent.ve_CargoDetails.MessageId where ent.ve_Message.MessageId='theID' )
-				as newtable where newtable.Row >= MYMIN and newtable.Row < MYMAX order by newtable.UnbReference 
-				"""
-    stmpquerry = ftmpquerry.replace('theID', manf_id)
-    ttmpquerry = stmpquerry.replace('MYMIN', str(pagenum * 20 + 1))
-    querry = ttmpquerry.replace('MYMAX', str(pagenum * 20 + 20 + 1))
-    cursor.execute(querry)
-
-    rows = cursor.fetchall()
-    rowarray_list = []
-    for row in rows:
-        t = (row.UnbReference, row.BillofLading, row.OriginPort, row.LoadingPort, row.DischargePort)
-        rowarray_list.append(t)
-    return rowarray_list
-
-
-def getSingleManifet(manf_id):
-    cnxn = pyodbc.connect(
-        'DRIVER={SQL Server};SERVER=localhost;DATABASE=MYTNIK_CUSCAR;UID=mytnik;PWD=mytnik;CHARSET=UTF8;unicode_results=False')
-    cursor = cnxn.cursor()
-    tmpquerry = """ SELECT [MessageId]
-      ,[UnbReference]
-      ,[SenderId]
-      ,[RecipientId]
-      ,[OriginalSenderId]
-      ,[DocumentNumber]
-      ,[DocumentCreationTime]
-      ,[CarrierCode]
-      ,[VoyageNumber]
-      ,[VesselName]
-      ,[ArrivalPort]
-      ,[ArrivalTime]
-  	FROM [MYTNIK_CUSCAR].[ent].[ve_Message] where [UnbReference]='theID' """
-
-    querry = tmpquerry.replace('theID', manf_id)
-
-    cursor.execute(querry)
-    rows = cursor.fetchall()
-    rowarray_list = []
-    for row in rows:
-        t = (row.MessageId, row.UnbReference, row.SenderId, row.RecipientId, row.OriginalSenderId, row.DocumentNumber,
-             row.DocumentCreationTime, row.CarrierCode, row.VoyageNumber, row.VesselName, row.ArrivalPort,
-             row.ArrivalTime, )
-        rowarray_list.append(t)
-    return rowarray_list
-
-
-def getContainersWithStatus():
-    simple_containers = getSimpleContainers()
+def get_containers_with_status():
+    simple_containers = get_simple_containers()
     containers_with_status = []
     for container in simple_containers:
         container_id = container.b
@@ -116,7 +62,7 @@ def getContainersWithStatus():
     return containers_with_status
 
 
-def getSimpleContainers():
+def get_simple_containers():
     cnxn = pyodbc.connect('DRIVER={SQL Server};SERVER=localhost;DATABASE=MYTNIK_CUSCAR;UID=mytnik;PWD=mytnik')
     cursor = cnxn.cursor()
     querry = """select UnbReference as a,ContainerIdentifier as b,ContainerType as c, ContainerLoad as d from ent.ve_Message inner join ent.ve_Container on ve_Message.MessageId = ve_Container.ManifestId"""
@@ -130,7 +76,7 @@ def getSimpleContainers():
     # return res
     return rows
 
-def getContainers():
+def get_containers():
     cnxn = pyodbc.connect('DRIVER={SQL Server};SERVER=localhost;DATABASE=MYTNIK_CUSCAR;UID=mytnik;PWD=mytnik')
     cursor = cnxn.cursor()
     querry = """select ent.ve_Message.UnbReference as a,  ent.ve_Container.ContainerIdentifier as b,  ent.ve_CargoDetails.BillofLading as c, CEILING (ent.ve_GoodsIdent.GoodsItemNumber) as d , ent.ve_Container.ContainerType as e, ent.ve_Container.ContainerStatus as f,CEILING( ent.ve_Container.GrossWeightValue) as g, ent.ve_Container.NetWeightValue as h, CEILING( ent.ve_Container.GrossVolumeValue ) as i, ent.ve_GoodsIdent.PackagesDescType as j, CEILING ( ent.ve_GoodsIdent.GoodsItemNumber ) as k, ent.ve_GoodsIdentFreeText.FreeTextLine1 as l from ent.ve_ContainerView
@@ -149,7 +95,7 @@ def getContainers():
     return res
 
 
-def getBills():
+def get_bills():
     cnxn = pyodbc.connect('DRIVER={SQL Server};SERVER=localhost;DATABASE=MYTNIK_CUSCAR;UID=mytnik;PWD=mytnik')
     cursor = cnxn.cursor()
     querry = """select UnbReference as a, BillofLading as b, OriginPort as c , LoadingPort as d, DischargePort as e from ent.ve_Message
@@ -164,7 +110,7 @@ def getBills():
     return res
 
 
-def getBillsforCont(ContainerId):
+def get_bills_for_container(ContainerId):
     cnxn = pyodbc.connect('DRIVER={SQL Server};SERVER=localhost;DATABASE=MYTNIK_CUSCAR;UID=mytnik;PWD=mytnik')
     cursor = cnxn.cursor()
     ftmpquerry = """select  a.ContainerIdentifier as f, b.BillofLading as g, b.OriginPort as h, b.LoadingPort as i, b.DischargePort as j, c.CityName as k, c.Country as l, c.NameAndAddressId as m from ent.ve_ContainerView

@@ -9,10 +9,9 @@ from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponseRedirect, HttpResponse
 from django.utils import simplejson
 
-from algorithms.basic import getSingleManifet, get_bills_per_manifest, getManifestsNoAjax, \
-    getContainersWithStatus, getSimpleContainers, rule_parser
-from algorithms.basic import getContainers, get_containers_per_manifest, getBillsforCont
-from algorithms.basic import getBills
+from algorithms.basic import get_manifests, get_containers_with_status, get_simple_containers, rule_parser
+from algorithms.basic import get_containers, get_containers_per_manifest, get_bills_for_container
+from algorithms.basic import get_bills
 from webint.models import ContainerStatus
 
 
@@ -50,7 +49,7 @@ def manifests(request):
 
 def manifests_datatables(request):
     if request.user.is_authenticated():
-        items_list = getManifestsNoAjax()
+        items_list = get_manifests()
         items_list_dict = {}
         items_list_dict.update({'aaData': items_list})
         return HttpResponse(json.dumps(items_list_dict), 'application/json')
@@ -59,7 +58,7 @@ def manifests_datatables(request):
 def containers_datatables(request):
     if request.user.is_authenticated():
         context = RequestContext(request)
-        items_list = getContainers()
+        items_list = get_containers()
         items_list_dict = {}
         items_list_dict.update({'aaData': items_list})
         return HttpResponse(json.dumps(items_list_dict), 'application/json')
@@ -67,7 +66,7 @@ def containers_datatables(request):
 
 def bills_datatables(request):
     if request.user.is_authenticated():
-        items_list = getBills()
+        items_list = get_bills()
         items_list_dict = {}
         items_list_dict.update({'aaData': items_list})
         return HttpResponse(json.dumps(items_list_dict), 'application/json')
@@ -76,7 +75,7 @@ def bills_datatables(request):
 def containers_with_status_datatables(request):
     if request.user.is_authenticated():
         context = RequestContext(request)
-        items_list = getContainersWithStatus()
+        items_list = get_containers_with_status()
         items_list_dict = {}
         items_list_dict.update({'aaData': items_list})
         return HttpResponse(json.dumps(items_list_dict), 'application/json')
@@ -84,7 +83,7 @@ def containers_with_status_datatables(request):
 
 def bills_per_cont_datatables(request, containerID):
     if request.user.is_authenticated():
-        items_list = getBillsforCont(containerID)
+        items_list = get_bills_for_container(containerID)
         items_list_dict = {}
         items_list_dict.update({'aaData': items_list})
         return HttpResponse(json.dumps(items_list_dict), 'application/json')
@@ -146,12 +145,6 @@ def not_logged_in(request):
 def user_logout(request):
     logout(request)
     return HttpResponseRedirect('/webint/')
-
-
-def ajax_bills_per_manifest(request, pagenumber, manifestID):
-    if request.user.is_authenticated():
-        data = get_bills_per_manifest(int(pagenumber), manifestID)
-        return HttpResponse(json.dumps(data), content_type="application/json")
 
 
 def bills_per_cont(request, containerID):
