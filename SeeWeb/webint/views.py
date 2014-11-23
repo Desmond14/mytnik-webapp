@@ -9,12 +9,10 @@ from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponseRedirect, HttpResponse
 from django.utils import simplejson
 
-from algorithms.basic import getManifests, getSingleManifet, getNumberOfContainers, getNumberOfBills, \
-    getBills_per_manifest, getManifestsNoAjax, \
-    getContainersWithStatus, getSimpleContainers,rule_parser
-from algorithms.basic import getContainers, getContainers_per_manifest, getBillsforCont
+from algorithms.basic import getSingleManifet, get_bills_per_manifest, getManifestsNoAjax, \
+    getContainersWithStatus, getSimpleContainers, rule_parser
+from algorithms.basic import getContainers, get_containers_per_manifest, getBillsforCont
 from algorithms.basic import getBills
-from algorithms.basic import getNumberOfManifests
 from webint.models import ContainerStatus
 
 
@@ -30,12 +28,12 @@ def update_status(request):
         new_status_param = request.POST.get('new_status')
         if new_status_param is not None:
             status.status = request.POST['new_status']
-            #print "This is update_status"
+            # print "This is update_status"
         else:
             new_assignee = User.objects.get(username=request.POST['new_assignee'])
             print new_assignee.username
             status.assignee = new_assignee
-            #print "this is update assignee"
+            # print "this is update assignee"
         status.save()
         return HttpResponse(json.dumps(status.status), 'application/json')
     return HttpResponse(status=404)
@@ -152,7 +150,7 @@ def user_logout(request):
 
 def ajax_bills_per_manifest(request, pagenumber, manifestID):
     if request.user.is_authenticated():
-        data = getBills_per_manifest(int(pagenumber), manifestID)
+        data = get_bills_per_manifest(int(pagenumber), manifestID)
         return HttpResponse(json.dumps(data), content_type="application/json")
 
 
@@ -169,10 +167,9 @@ def alerts(request):
     if request.user.is_authenticated():
         context = RequestContext(request)
         context_dict = {}
-        json_data=open('tmp.json').read()
+        json_data = open('tmp.json').read()
         data = json.loads(json_data)
         context_dict = rule_parser(data)
         return render_to_response('webint/alerts.html', context_dict, context)
     else:
         return HttpResponseRedirect('/webint/not_logged_in')
-
