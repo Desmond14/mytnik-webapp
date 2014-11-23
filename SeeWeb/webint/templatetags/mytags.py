@@ -2,13 +2,16 @@ from django.template import Library, Node, TemplateSyntaxError
 
 register = Library()
 
+
 class RangeNode(Node):
     def __init__(self, num, context_name):
         self.num, self.context_name = num, context_name
+
     def render(self, context):
         context[self.context_name] = range(int(self.num))
         return ""
-        
+
+
 @register.tag
 def num_range(parser, token):
     """
@@ -39,6 +42,17 @@ def num_range(parser, token):
             as context_variable" % (fnctn, fnctn)
     return RangeNode(num, context_name)
 
+
+# # tags.py
+@register.simple_tag
+def active(request, pattern):
+    import re
+    if re.search(pattern, request.path):
+        return 'active'
+    return ''
+
+
 @register.filter()
 def to_int(value):
     return int(value)
+

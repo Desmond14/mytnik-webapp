@@ -236,7 +236,7 @@ def ajax_conts_per_manifest(request, pagenumber, manifestID):
 def bills_per_cont(request, containerID):
     if request.user.is_authenticated():
         context = RequestContext(request)
-        context_dict = {}
+        context_dict = {'container_id': containerID}
         return render_to_response('webint/bills_per_cont.html', context_dict, context)
     else:
         return HttpResponseRedirect('/webint/not_logged_in')
@@ -251,8 +251,6 @@ def unb_single_manifest_details(request, unbRef):
         numberOfBillsPerManifest = getNumberOfBills(unbref_id)
         print numberOfContainersPerManifest
         print numberOfBillsPerManifest
-        paginationCont = 0
-        paginationBill = 0
         paginationCont = int(math.ceil(numberOfContainersPerManifest / 20.0))
         paginationBill = int(math.ceil(numberOfBillsPerManifest / 20.0))
         pagesCont = range(paginationCont)

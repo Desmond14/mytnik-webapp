@@ -18,7 +18,7 @@ SETTINGS_DIR = os.path.dirname(__file__)
 PROJECT_PATH = os.path.join(SETTINGS_DIR, os.pardir)
 PROJECT_PATH = os.path.abspath(PROJECT_PATH)
 
-STATIC_PATH = os.path.join(PROJECT_PATH,'static')
+STATIC_PATH = os.path.join(PROJECT_PATH, 'static')
 
 
 # Quick-start development settings - unsuitable for production
@@ -45,7 +45,7 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-	'webint',
+    'webint',
 
 )
 
@@ -60,7 +60,6 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
 
-
 ROOT_URLCONF = 'SeeWeb.urls'
 
 WSGI_APPLICATION = 'SeeWeb.wsgi.application'
@@ -70,23 +69,23 @@ WSGI_APPLICATION = 'SeeWeb.wsgi.application'
 # https://docs.djangoproject.com/en/1.6/ref/settings/#databases
 DATABASE_PATH = os.path.join(PROJECT_PATH, 'littlemytnik.db')
 DATABASES = {
-   'themytnik': {
-       'ENGINE': "django_pyodbc",
-       'HOST': "127.0.0.1,1433",
-       'USER': "mytnik",
-       'PASSWORD': "mytnik",
-       'NAME': "MYTNIK_CUSCAR",
-       'OPTIONS': {
-           'host_is_server': True
-       }},
-       'default': {
-        'NAME': DATABASE_PATH ,
+    'themytnik': {
+        'ENGINE': "django_pyodbc",
+        'HOST': "127.0.0.1,1433",
+        'USER': "mytnik",
+        'PASSWORD': "mytnik",
+        'NAME': "MYTNIK_CUSCAR",
+        'OPTIONS': {
+            'host_is_server': True
+        }},
+    'default': {
+        'NAME': DATABASE_PATH,
         'ENGINE': 'django.db.backends.sqlite3',
-       }
-   }
+    }
+}
 
 # CACHES = {
-#     'default': {
+# 'default': {
 #         'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
 #         'LOCATION': 'E:\gitinzKopia\gitInz\mytnik-webapp\SeeWeb\cache',
 #     }
@@ -113,4 +112,15 @@ STATIC_URL = '/static/'
 
 STATICFILES_DIRS = (
     STATIC_PATH,
+)
+
+TEMPLATE_CONTEXT_PROCESSORS = (
+    'django.core.context_processors.request',
+    "django.contrib.auth.context_processors.auth",
+    "django.core.context_processors.debug",
+    "django.core.context_processors.i18n",
+    "django.core.context_processors.media",
+    "django.core.context_processors.static",
+    "django.core.context_processors.tz",
+    "django.contrib.messages.context_processors.messages"
 )

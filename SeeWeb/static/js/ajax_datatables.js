@@ -4,7 +4,6 @@ $(document).ready(function() {
 	url2 = "http://127.0.0.1:8000/webint/containers_datatables";
 	url3 = "http://127.0.0.1:8000/webint/bills_datatables";
 	url4 = "http://127.0.0.1:8000/webint/bills_per_cont_datatables/" + window.location.pathname.split("/").slice(-2)[0];
-	url5 = "http://127.0.0.1:8000/webint/containers_with_status_datatables";
 	
 	$('#manifests').DataTable({
 		"ajax" : url1,

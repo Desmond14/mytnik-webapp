@@ -1,84 +1,25 @@
-<!DOCTYPE html>
+{% extends "base.html" %}
 
 {% load static %}
 {% load mytags %}
-<html>
 
-    <head>
-        <meta charset="utf-8">
-		<meta http-equiv="X-UA-Compatible" content="IE=edge">
-		<meta name="viewport" content="width=device-width, initial-scale=1">	
-        <title>System analityczny</title>
-        <link rel="icon" href="{% static 'icons/manifests.ico' %}" type="image/x-ico; charset=binary">
-		<link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
-		<link href="{% static 'css/dashboard.css' %}" rel="stylesheet">
-		<link href="{% static 'css/dataTables.bootstrap.css' %}" rel="stylesheet">
-    </head>
+{% block title %} Bills {%  endblock %}
 
-    <body>
-    	<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-	      <div class="container-fluid">
-	        <div class="navbar-header">
-	          <a class="navbar-brand dropdown-toggle" href="#" data-toggle="dropdown">SeeWeb<b class="caret"></b></a>
-	          	<ul class="dropdown-menu">
-		            <li><a href="/webint/"><span class="glyphicon glyphicon-home"></span> Home</a></li>
-		            <li><a href="#"><span class="glyphicon glyphicon-home"></span> TO DO</a></li>
-		            <li><a href="#"><span class="glyphicon glyphicon-home"></span> TO DO</a></li>
-		            <li class="divider"></li>
-		            <li><a href="https://github.com/Desmond14/mytnik-webapp"><span class="glyphicon glyphicon-globe"></span> Git</a></li>
-		            <li><a href="https://case.iisg.agh.edu.pl/jira/browse/MYTNIKWEB"><span class="glyphicon glyphicon-wrench"></span> Jira</a></li>
-		            <li><a href="https://case.iisg.agh.edu.pl/confluence/display/prpj14rodMytnikWeb/Home"><span class="glyphicon glyphicon-cloud-upload"></span> Confluence</a></li>
-		            <li class="divider"></li>
-		            <li><a href="/webint/docs/"><span class="glyphicon glyphicon-book"></span> Help</a></li>
-          		</ul>
-	        </div>
-	        <div class="navbar-collapse collapse">
-	          <ul class="nav navbar-nav navbar-right">
-	            <li><a href="/webint/logout">Wyloguj się: {{ user.first_name }} {{ user.last_name }}</a></li>
-	          </ul>
-	          <form class="navbar-form navbar-right">
-	            <input type="text" class="form-control" placeholder="Search...">
-	          </form>
-	        </div>
-	      </div>
-    	</div>
+{% block tables %}
+    <table id="bills" class="display table table-hover">
+        <thead>
+        <tr>
+            <th>Unb Reference</th>
+            <th>Bill of Lading</th>
+            <th>Origin Port</th>
+            <th>Loading Port</th>
+            <th>Discharge Port</th>
+        </tr>
+        </thead>
+    </table>
+{% endblock %}
 
-		<div class="container-fluid">
-			<div class="row">
-				<div class="col-md-1 sidebar">
-					<ul class="nav nav-sidebar">
-			            <li><a href="/webint/">Manifests</a></li>
-			            <li><a href="/webint/containers/" id="nav_cont">Containers</a></li>
-			            <li class="active"><a href="/webint/bills/" id ="nav_bill">Bills</a></li>
-			            <li><a href="/webint/alerts/" id ="alerts">Alerts</a></li>
-          			</ul>
-          		</div>
-          		<div class="col-md-11 col-md-offset-1" main>
-          			<div class="row table-responsive">
-          				<table id="bills" class="display table table-hover">
-						    <thead>
-						        <tr>
-						            <th>Unb Reference</th>
-						            <th>Bill of Lading</th>
-						            <th>Origin Port</th>
-						            <th>Loading Port</th>
-						            <th>Discharge Port</th>
-						        </tr>
-						    </thead>
-						</table>						
-          			</div>
-				<hr>
-			</div>	
-			</div>	
-		</div>
-
-		<script src="{% static 'js/jquery-2.1.0.min.js' %}"></script> 
-		<script src="{% static 'js/bootstrap.min.js' %}"></script>
-		<script src="{% static 'js/jquery.dataTables.js' %}"></script>
-		<script src="{% static 'js/dataTables.bootstrap.js' %}"></script>
-		<script src="{% static 'js/bills.js' %}"></script>
-		<script src="{% static 'js/ajax_datatables.js' %}"></script>
-		
-    </body>
-
-</html>
+{% block custom_scripts %}
+    <script src="{% static 'js/bills.js' %}"></script>
+    <script src="{% static 'js/ajax_datatables.js' %}"></script>
+{% endblock %}
