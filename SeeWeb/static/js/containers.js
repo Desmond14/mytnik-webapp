@@ -1,18 +1,13 @@
 $(document).ready(function () {
 	
-	/*$('#containersWithStatus tfoot th').each( function () {
-        var title = $('#containersWithStatus thead th').eq( $(this).index() ).text();
-        $(this).html( '<input width="200px" type="text" placeholder="Search '+title+'" />' );
-    } );*/
-	
     var table = $('#containersWithStatus').DataTable({
-        "ajax": "http://127.0.0.1:8000/webint/containers_with_status_datatables",
+        "ajax": "/webint/containers_with_status_datatables",
         "deferRender": true,
         "fnCreatedRow": function (row, aData, iDataIndex) {
             $(row).dblclick(function () {
                     var container_id = $(this).children().eq(1).text();
                     console.log(container_id);
-                    var myURL = 'http://127.0.0.1:8000/webint/bills_per_cont/'.concat(container_id);
+                    var myURL = '/webint/bills_per_cont/'.concat(container_id);
                     window.open(myURL);
             });
             appendCellsWithButtons($(row));
@@ -274,10 +269,8 @@ function cancelChanges($row) {
 }
 
 function sendContainerStatusUpdateRequest(selectedStatus, containerId) {
-    var theURL = "http://127.0.0.1:8000/webint/containers/status/";
-
     $.ajax({
-        url: theURL,
+        url: "/webint/containers/status/",
         data: {
             container: containerId,
             new_status: selectedStatus,
@@ -292,9 +285,8 @@ function sendContainerStatusUpdateRequest(selectedStatus, containerId) {
 }
 
 function sendAssigneeUpdateRequest(selectedAssignee, containerId) {
-    var theURL = "http://127.0.0.1:8000/webint/page/0/";
     $.ajax({
-        url: theURL,
+        url: "/webint/page/0/",
         data: {
             container: containerId,
             new_assignee: selectedAssignee,
