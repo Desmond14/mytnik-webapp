@@ -286,7 +286,7 @@ function sendContainerStatusUpdateRequest(selectedStatus, containerId) {
 
 function sendAssigneeUpdateRequest(selectedAssignee, containerId) {
     $.ajax({
-        url: "/webint/page/0/",
+        url: "/webint/containers/assignee/",
         data: {
             container: containerId,
             new_assignee: selectedAssignee,
