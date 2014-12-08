@@ -13,21 +13,13 @@ from algorithms.basic import get_manifests, get_containers_with_status, get_simp
 from algorithms.basic import get_containers, get_containers_per_manifest, get_bills_for_container
 from algorithms.basic import get_bills
 from webint.models import ContainerStatus
+from django.contrib.auth.decorators import login_required
 
 
 def json_encode_decimal(obj):
     if isinstance(obj, decimal.Decimal):
         return str(obj)
     raise TypeError(repr(obj) + " is not JSON serializable")
-
-
-def logged_in_check(controller):
-    def inner(*args):
-        if args[0].user.is_authenticated():
-            return controller(*args)
-        else:
-            return HttpResponseRedirect('/webint/not_logged_in')
-    return inner
 
 
 def update_status(request):
@@ -52,7 +44,7 @@ def update_assignee(request):
     return HttpResponse(status=404)
 
 
-@logged_in_check
+@login_required(login_url="/webint/login/")
 def manifests(request):
     context = RequestContext(request)
     context_dict = {}
@@ -99,7 +91,7 @@ def bills_per_cont_datatables(request, containerID):
         return HttpResponse(json.dumps(items_list_dict), 'application/json')
 
 
-@logged_in_check
+@login_required
 def containers_view(request):
     context = RequestContext(request)
     usernames = User.objects.all().values_list('username', flat=True)
@@ -107,14 +99,14 @@ def containers_view(request):
     return render_to_response('webint/containers.html', context_dict, context)
 
 
-@logged_in_check
+@login_required
 def bills_view(request):
     context = RequestContext(request)
     context_dict = {}
     return render_to_response('webint/bills.html', context_dict, context)
 
 
-@logged_in_check
+@login_required
 def docs(request):
     context = RequestContext(request)
     context_dict = {}
@@ -151,14 +143,14 @@ def user_logout(request):
     return HttpResponseRedirect('/webint/')
 
 
-@logged_in_check
+@login_required
 def bills_per_cont(request, containerID):
     context = RequestContext(request)
     context_dict = {'container_id': containerID}
     return render_to_response('webint/bills_per_cont.html', context_dict, context)
 
 
-@logged_in_check
+@login_required
 def alerts(request):
     context = RequestContext(request)
     json_data = open('tmp.json').read()
