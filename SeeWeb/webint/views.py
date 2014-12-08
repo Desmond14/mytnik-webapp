@@ -165,3 +165,8 @@ def alerts(request):
     data = json.loads(json_data)
     context_dict = rule_parser(data)
     return render_to_response('webint/alerts.html', context_dict, context)
+
+
+def get_usernames(request):
+    usernames = User.objects.all().values_list('username', flat=True)
+    return HttpResponse(json.dumps({'users': list(usernames)}), 'application/json')

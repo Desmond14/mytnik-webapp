@@ -21,4 +21,5 @@ urlpatterns = patterns('',
                        url(r'^bills/', views.bills_view, name='bills_view'),
                        url(r'^not_logged_in/', views.not_logged_in, name='not_logged_in'),
                        url(r'^bills_per_cont/(?P<containerID>\w*)/$', views.bills_per_cont, name='bills_per_cont'),
+                       url(r'^usernames/$', views.get_usernames, name='get_usernames')
 )

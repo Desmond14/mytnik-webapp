@@ -14,6 +14,8 @@ $(document).ready(function () {
         }
     });
 
+    mytnik.loadUsernames();
+
     // Apply the search
     table.columns().eq(0).each(function (colIdx) {
         $('input', table.column(colIdx).footer()).on('keyup change', function () {
@@ -103,6 +105,14 @@ $(document).ready(function () {
 });
 
 var mytnik = (function () {
+    var usernames;
+
+    function loadUsernames() {
+        $.getJSON("/webint/usernames/", function (data) {
+            usernames = data['users'];
+        });
+    }
+
     function appendCellsWithButtons($row) {
         $row.append(createEditCell($row));
         $row.append(createSaveCell($row));
@@ -178,7 +188,6 @@ var mytnik = (function () {
     function createAssigneeSelect(currentAssignee) {
         var $select = $("<select></select>");
         $("<option />", {value: "None", text: ""}).appendTo($select);
-        var usernames = retrieveUsernamesFromDOM();
         for (var i = 0; i < usernames.length; i++) {
             var val = usernames[i];
             var option = $("<option />", {value: val, text: val});
@@ -187,22 +196,6 @@ var mytnik = (function () {
         $($select).attr('data-old', currentAssignee);
         $($select).val(currentAssignee);
         return $select;
-    }
-
-    function retrieveUsernamesFromDOM() {
-        var divWithUsernames = document.getElementById("usernames");
-
-        var usernames = (divWithUsernames.getAttribute("data-usernames").replace(/&(l|g|quo)t;/g, function (a, b) {
-            return {
-                l: '<',
-                g: '>',
-                quo: '"'
-            }[b];
-        }));
-
-        usernames = usernames.replace(/u'/g, '\'')
-        usernames = usernames.replace(/'/g, '\"')
-        return JSON.parse(usernames);
     }
 
     function turnOffEditMode($row) {
@@ -302,7 +295,8 @@ var mytnik = (function () {
     }
 
     return {
-        appendCellsWithButtons: appendCellsWithButtons
+        appendCellsWithButtons: appendCellsWithButtons,
+        loadUsernames: loadUsernames
     };
 })();
 
