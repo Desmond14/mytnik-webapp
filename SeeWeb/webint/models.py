@@ -15,7 +15,16 @@ class UserProfile(models.Model):
     def __unicode__(self):
         return self.user.username
 
+class RuleStorage(models.Model):
+    instance_name = models.CharField(max_length=255, unique=True)
+    instance_description = models.CharField(max_length=512)
+    json_file = models.FileField(upload_to='rules')
 
+    def __unicode__(self):
+        return self.instance_name
+
+    def url_name(self):
+        return self.instance_name.replace(' ', '_')
 class ContainerStatus(models.Model):
     assignee = models.ForeignKey(User, blank=True, null=True)
 

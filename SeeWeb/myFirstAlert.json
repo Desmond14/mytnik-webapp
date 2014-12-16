@@ -1,0 +1,1 @@
+{"1": {"filters": {"TareWeightValue": [">", "5000"]}, "severity": 2, "filter_type": "AND"}}

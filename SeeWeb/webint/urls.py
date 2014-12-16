@@ -1,9 +1,12 @@
 from django.conf.urls import patterns, url
 from webint import views
+from django.conf.urls.static import static
+from django.conf import settings
 
 urlpatterns = patterns('',
                        url(r'^$', views.manifests, name='no_ajax'),
                        url(r'^alerts/$', views.alerts, name='alerts'),
+					   url(r'^choose_rules/$', views.choose_rules, name='choose_rule'),
                        url(r'^containers/status/$', views.update_status, name="update_status"),
                        url(r'^containers/assignee/$', views.update_assignee, name="update_assignee"),
                        url(r'^manifests/', views.manifests, name='no_ajax'),
@@ -22,4 +25,4 @@ urlpatterns = patterns('',
                        url(r'^not_logged_in/', views.not_logged_in, name='not_logged_in'),
                        url(r'^bills_per_cont/(?P<containerID>\w*)/$', views.bills_per_cont, name='bills_per_cont'),
                        url(r'^usernames/$', views.get_usernames, name='get_usernames')
-)
+) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

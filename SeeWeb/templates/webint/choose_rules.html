@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% load static %}
+{% load custom_tags %}
+
+{% block title %} Alerts {% endblock %}
+
+{% block tables %}
+<div class="jumbotron">
+<form role="form" method="post" action="/webint/choose_rules/" >
+        {% csrf_token %}
+        {% for instance_name,instance_desc in rules_dict.items %}    
+            <div class="checkbox">
+                <label>
+                    <input name="{{ instance_name }}" value="{{ instance_desc }}" type="checkbox">
+                    {{ instance_desc }}
+                </label>
+            </div>
+        {% endfor %}
+      <button type="submit" class="btn btn-default">Submit</button>
+
+</form>
+</div>
+
+{% endblock %}
+
+{% block custom_scripts %}
+    <script src="{% static 'js/alerts.js' %}"></script>
+{% endblock %}

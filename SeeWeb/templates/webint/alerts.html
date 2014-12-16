@@ -15,21 +15,28 @@
             <th> Loading Port</th>
             <th> Discharge Port</th>
             <th> Delivery Port</th>
+            <th> Container</th>
             <th> Severity</th>
         </tr>
         </thead>
         <tbody id="">
-        {% for inner_list in returned_list %}
-            {% if inner_list.6 == 1 %}
-                <tr class="danger single_row">
+                {% for inner_list in returned_list %}
+                    {% if inner_list.7 == 1 %}
+                        <tr class="active single_row" >
+                    {% elif inner_list.7 == 2  %}
+                        <tr class="danger single_row" >
+                    {% elif inner_list.7 == 3  %}
+                        <tr class="warning single_row" >
+                    {% elif inner_list.7 == 4  %}
+                        <tr class="info single_row" >
                     {% else %}
-                <tr class="success single_row">
-            {% endif %}
-        {% for field in inner_list %}
-            <td> {{ field }} </td>
-        {% endfor %}
-        </tr>
-        {% endfor %}
+                        <tr class="success single_row" >
+                    {% endif %}
+                    {% for field in inner_list %}
+                        <td> {{ field }} </td>
+                    {% endfor %}
+                </tr>
+                {% endfor %}
         </tbody>
     </table>
 {% endblock %}

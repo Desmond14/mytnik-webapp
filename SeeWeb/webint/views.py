@@ -9,10 +9,10 @@ from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponseRedirect, HttpResponse
 from django.utils import simplejson
 
-from algorithms.basic import get_manifests, get_containers_with_status, get_simple_containers, rule_parser
+from algorithms.basic import get_manifests, get_containers_with_status, get_simple_containers, rule_parser, combine_serevity
 from algorithms.basic import get_containers, get_containers_per_manifest, get_bills_for_container
 from algorithms.basic import get_bills
-from webint.models import ContainerStatus
+from webint.models import ContainerStatus, RuleStorage
 from django.contrib.auth.decorators import login_required
 
 
@@ -149,6 +149,36 @@ def bills_per_cont(request, containerID):
     context_dict = {'container_id': containerID}
     return render_to_response('webint/bills_per_cont.html', context_dict, context)
 
+def choose_rules(request):
+    if request.user.is_authenticated():
+        context = RequestContext(request)
+        if request.method == 'POST':
+            # request.POST.lists returns list of tuples
+            list_of_selected_rules = request.POST.lists()
+            dict_to_return = {}
+            dict_to_return['returned_list'] = []
+            for tuple_rule in list_of_selected_rules:
+                if tuple_rule[0] != 'csrfmiddlewaretoken':
+                    db_rule_object = RuleStorage.objects.get(instance_name=tuple_rule[0])
+                    json_data = db_rule_object.json_file.read()
+                    data = json.loads(json_data)
+                    tmp_dict = rule_parser(data)
+                    dict_to_return['returned_list'] += tmp_dict.pop('returned_list')
+            return render_to_response('webint/alerts.html', dict_to_return, context)
+        else:
+            context = RequestContext(request)
+            context_dict = {}
+            #json_data = open('tmp.json').read()
+            #data = json.loads(json_data)
+            #context_dict = rule_parser(data)
+            rules = RuleStorage.objects.all()
+            rules_dict = {}
+            for single_rule in rules:
+                rules_dict[single_rule.instance_name] = single_rule.instance_description
+            context_dict['rules_dict'] = rules_dict
+            return render_to_response('webint/choose_rules.html', context_dict, context)
+    else:
+        return HttpResponseRedirect('/webint/not_logged_in')
 
 @login_required
 def alerts(request):

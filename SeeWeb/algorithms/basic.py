@@ -144,29 +144,60 @@ def rule_parser(dict_to_parse):
         tmpquerry = basequerry
         if rule_dict['filter_type'] == 'AND':
             for column_filter, value in rule_dict['filters'].iteritems():
-                tmpquerry = tmpquerry + str(column_filter) + " like " + " '" + str(value) + "' " + " and "
+                #tmpquerry = tmpquerry + str(column_filter) + " like " + " '" + str(value) + "' " + " and "
+                                          ### Column filter       ### operator       ### value
+                tmpquerry = tmpquerry + str(column_filter) + " "+ value[0] + " '" + str(value[1]) + "' " + " and "
             # removing last and
             tmpquerry = tmpquerry[:-4]
             cursor.execute(tmpquerry)
             rows = cursor.fetchall()
             for row in rows:
-                t=(row[1],row[6],row[7],row[8],row[9],row[10],rule_dict['severity'])
+                t=(row[1],row[6],row[7],row[8],row[9],row[10],row[32],rule_dict['severity'])
                 res.append(t);
         if rule_dict['filter_type'] == 'OR':
             for column_filter, value in rule_dict['filters'].iteritems():
-                tmpquerry = tmpquerry + str(column_filter) + " like " + " '" + str(value) + "' " + " or "
+                #tmpquerry = tmpquerry + str(column_filter) + " like " + " '" + str(value) + "' " + " or "
+                                          ### Column filter       ### operator       ### value
+                tmpquerry = tmpquerry + str(column_filter) + " "+ value[0] + " '" + str(value[1]) + "' " + " or "
             # removing last or
             tmpquerry = tmpquerry[:-4]
             cursor.execute(tmpquerry)
             rows = cursor.fetchall()
             for row in rows:
-                t=(row[1],row[6],row[7],row[8],row[9],row[10],rule_dict['severity'])
+                t=(row[1],row[6],row[7],row[8],row[9],row[10],row[32],rule_dict['severity'])
                 res.append(t);
-        #print rule_dict['severity']
-        #print rule_dict['filter_type']
-        #print rule_dict['filters']
     parsed_dict['returned_list'] = res
     return parsed_dict
+
+def combine_serevity(list_to_combine):
+    counter = {}
+    which_containers_combine_severity = []
+    print "Helloo"
+    for single_tuple in list_to_combine:
+        counter[single_tuple[0]]=0
+    for single_tuple in list_to_combine:
+        counter[single_tuple[0]]+=1
+    for container_id, liczba_wystapien in counter.iteritems():
+        if liczba_wystapien >=2:
+            which_containers_combine_severity.append(container_id)
+    for id_ in which_containers_combine_severity:
+        summary_sev = 0
+        list_of_indexes = []
+        list_of_indexes_to_be_removed = []
+        for i in range(len(list_to_combine)):
+            if  list_to_combine[i][0] == id_:
+                 list_of_indexes.append(i)
+        for instace in range(len(list_of_indexes)):
+            if instace >= 1:
+                list_to_combine[list_of_indexes[0]][7] += list_to_combine[list_of_indexes[instace]][7]
+                list_of_indexes_to_be_removed.append(list_of_indexes[instace])
+        offset=0
+        for removed_index in list_of_indexes_to_be_removed:
+            list_to_combine.pop(removed_index-offset)
+            print removed_index
+            offset+=1
+    return list_to_combine
+
 
 
 

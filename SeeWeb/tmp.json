@@ -1,1 +1,0 @@
-{"1": {"filters": {"BillofLading": "867034156", "DischargePort": "FIKTK", "OriginPort": "CNSHA", "PackagesDescType": "CARTONS", "ArrivalPort": "PLGDN"}, "severity": 1, "filter_type": "AND"}, "2": {"filters": {"BillofLading": "867034156", "DischargePort": "FIKTK", "OriginPort": "CNSHA", "PackagesDescType": "CARTONS", "ArrivalPort": "PLGDN"}, "severity": 2, "filter_type": "OR"}}

@@ -1,0 +1,1 @@
+{"1": {"filters": {"GoodsItemNumber": [">=", "30.2"]}, "severity": 3, "filter_type": "AND"}}
