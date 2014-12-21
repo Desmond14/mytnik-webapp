@@ -69,15 +69,15 @@ WSGI_APPLICATION = 'SeeWeb.wsgi.application'
 # https://docs.djangoproject.com/en/1.6/ref/settings/#databases
 DATABASE_PATH = os.path.join(PROJECT_PATH, 'littlemytnik.db')
 DATABASES = {
-    'themytnik': {
-        'ENGINE': "django_pyodbc",
-        'HOST': "127.0.0.1,1433",
-        'USER': "mytnik",
-        'PASSWORD': "mytnik",
-        'NAME': "MYTNIK_CUSCAR",
-        'OPTIONS': {
-            'host_is_server': True
-        }},
+    # 'themytnik': {
+    #     'ENGINE': "django_pyodbc",
+    #     'HOST': "127.0.0.1,1433",
+    #     'USER': "mytnik",
+    #     'PASSWORD': "mytnik",
+    #     'NAME': "MYTNIK_CUSCAR",
+    #     'OPTIONS': {
+    #         'host_is_server': True
+    #     }},
     'default': {
         'NAME': DATABASE_PATH,
         'ENGINE': 'django.db.backends.sqlite3',
